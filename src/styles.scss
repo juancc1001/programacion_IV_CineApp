@@ -2,12 +2,16 @@
   --font-body: 'Roboto', sans-serif;
   --font-heading: 'Poppins', sans-serif;
 
-  --color-bg: #001d3d;
-  --color-text: #ffffff;
+  --color-bg: #e9f4ff;
+  --color-text: #000000;
   --color-primary: #0077b6;
   --color-secondary: #fb6f92;
   --color-danger: #c1121f;
   --color-success: #a7c957;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
 html, body {
@@ -20,4 +24,9 @@ html, body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
 }

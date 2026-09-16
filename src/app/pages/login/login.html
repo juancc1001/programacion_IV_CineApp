@@ -1,0 +1,12 @@
+<div class="login-backdrop" (click)="close()">
+    <div class="login-container" (click)="$event.stopPropagation()">
+        <button type="button" class="close-btn" (click)="close()">&times;</button>
+        <h2>Login</h2>
+        <p>Ingrese su información para iniciar sesión</p>
+        <form class="form" (ngSubmit)="onSubmit()">
+            <app-input placeholder="Email" type="email" [(ngModel)]="email" name="email" />
+            <app-input placeholder="Contraseña" type="password" [(ngModel)]="password" name="password" />
+            <app-button type="submit">INGRESAR</app-button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,10 @@
+<input
+	class="input"
+	[type]="type"
+	[placeholder]="placeholder"
+	[style.border-color]="borderColorValue"
+	[value]="value"
+	[disabled]="disabled"
+	(input)="onInput($any($event.target).value)"
+	(blur)="onBlur()"
+/>

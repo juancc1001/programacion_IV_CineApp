@@ -1,0 +1,12 @@
+.button {
+	display: block;
+	width: 100%;
+	margin: 0 auto;
+	border: 0;
+	border-radius: 5px;
+	color: var(--color-bg);
+	cursor: pointer;
+	font: inherit;
+	padding: 0.625rem 1rem;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}

@@ -1,0 +1,16 @@
+.input {
+	display: block;
+	width: 100%;
+	margin: 0 auto;
+	border: 1.5px solid;
+	border-radius: 5px;
+	color: var(--color-text);
+	font: inherit;
+	padding: 0.625rem 1rem;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+	box-sizing: border-box;
+}
+
+.input:focus {
+	outline: none;
+}

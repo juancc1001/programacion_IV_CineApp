@@ -1,5 +1,33 @@
 .navbar{
     border: 1.5px solid black;
-    max-height: 45px;
+    max-height: 60px;
     width: 100%;
+    gap: 30px;
+    padding: 5px;
+    display: flex;
+    a{
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+
+    a:hover{
+        font-weight: bold;
+        font-size: 20px;
+    }
+
+    .login-btn{
+        font: inherit;
+        margin-right: 15px;
+        margin-left: auto;
+        margin-top: auto;
+        margin-bottom: auto;
+        border: none;
+        background-color: inherit;;
+    }
+
+    .login-btn:hover{
+        font-weight: bold;
+        font-size: 20px;
+        border-bottom: 2px solid var(--color-secondary);
+    }
 }

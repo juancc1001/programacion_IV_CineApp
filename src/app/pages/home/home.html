@@ -1,0 +1,11 @@
+<section class="home-container">
+
+  @if (userInformation()) {
+    <div class="user-card">
+      <p><strong>Nombre:</strong> {{ userFullName }}</p>
+      <p><strong>Rol:</strong> {{ roleLabel }}</p>
+    </div>
+  } @else {
+    <p>Cargando información del usuario...</p>
+  }
+</section>

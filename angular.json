@@ -27,6 +27,11 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/app/assets",
+                "output": "assets"
               }
             ],
             "styles": [
@@ -67,6 +72,10 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "hmr": true,
+            "liveReload": true
+          },
           "configurations": {
             "production": {
               "buildTarget": "tp-prograiv:build:production"
