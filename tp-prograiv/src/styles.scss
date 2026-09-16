@@ -1,1 +1,23 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --font-body: 'Roboto', sans-serif;
+  --font-heading: 'Poppins', sans-serif;
+
+  --color-bg: #001d3d;
+  --color-text: #ffffff;
+  --color-primary: #0077b6;
+  --color-secondary: #fb6f92;
+  --color-danger: #c1121f;
+  --color-success: #a7c957;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
