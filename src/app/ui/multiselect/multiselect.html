@@ -1,0 +1,26 @@
+<div class="multiselect">
+	<button
+		class="multiselect-toggle"
+		type="button"
+		[style.border-color]="borderColorValue"
+		[disabled]="disabled"
+		(click)="toggleOpen()"
+	>
+		<span class="multiselect-label">{{ label }}</span>
+		<span class="material-symbols-outlined">expand_more</span>
+	</button>
+	@if (open) {
+		<div class="multiselect-panel" [style.border-color]="borderColorValue">
+			@for (option of options; track option) {
+				<label class="multiselect-option">
+					<input
+						type="checkbox"
+						[checked]="value.includes(option)"
+						(change)="toggleOption(option)"
+					/>
+					{{ option }}
+				</label>
+			}
+		</div>
+	}
+</div>

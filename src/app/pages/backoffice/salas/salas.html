@@ -1,0 +1,48 @@
+<div class="crud-view">
+  <h2>Salas de cine</h2>
+  <div class="crud-page">
+    <div class="crud-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Número</th>
+            <th>Nombre</th>
+            <th>Piso</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (sala of salas(); track sala.id) {
+            <tr>
+              <td>{{ sala.id }}</td>
+              <td>{{ sala.name }}</td>
+              <td>{{ sala.floor }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <!-- agrega la clase "abierto" dependiendo de showForm (true/false) -->
+    <div class="crud-form-panel" [class.abierto]="showForm">
+      <button type="button" class="crud-form-tab" (click)="toggleForm()">
+        <span class="material-symbols-outlined">add</span>
+        AGREGAR NUEVA SALA
+      </button>
+      <div class="crud-form-container">
+        <form class="crud-form">
+          <label>Nombre:</label>
+          <input name="name" placeholder="Nombre" [(ngModel)]="newSala.name" />
+          <label>Piso:</label>
+          <select name="floor" [(ngModel)]="newSala.floor">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+          <app-button style="margin: 10px 0px" type="submit" (click)="addSala()"
+            >Agregar</app-button
+          >
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

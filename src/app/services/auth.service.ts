@@ -1,7 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { SupabaseService } from './supabase.service';
 import { Roles } from '../../types/roles';
-import type { Tables } from '../../types/supabase';
+import type { Tables, TablesInsert } from '../../types/supabase';
 
 @Injectable({
   providedIn: 'root',
@@ -13,14 +13,31 @@ export class AuthService {
 
   constructor() {
     this.supabase.auth.onAuthStateChange(() => {
-      this.cachedUserInformation = undefined;
-      // supabase-js puede bloquearse si se consulta dentro del propio callback
-      setTimeout(() => void this.getUserInformation(), 0);
+      this.cachedUserInformation = this.fetchUserInformation();
     });
   }
 
-  signUp(email: string, password: string) {
-    return this.supabase.auth.signUp({ email, password });
+  async signUp(
+    email: string,
+    password: string,
+    information: Omit<TablesInsert<'user_information'>, 'user_id' | 'role'>,
+  ) {
+    const { data, error } = await this.supabase.auth.signUp({ email, password });
+
+    if (error || !data.user) {
+      console.error('Error signing up:', error);
+      return { data, error };
+    }
+
+    const { error: informationError } = await this.supabase
+      .from('user_information')
+      .insert({ ...information, user_id: data.user.id, role: Roles.Client });
+
+    if (informationError) {
+      console.error('Error saving user information:', informationError);
+    }
+
+    return { data, error: informationError };
   }
 
   signIn(email: string, password: string) {

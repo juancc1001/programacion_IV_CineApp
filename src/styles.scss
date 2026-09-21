@@ -8,6 +8,7 @@
   --color-secondary: #fb6f92;
   --color-danger: #c1121f;
   --color-success: #a7c957;
+  --color-grey: #9db6ce60;
 }
 
 *, *::before, *::after {
@@ -29,4 +30,116 @@ h1, h2, h3, h4, h5, h6 {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+// Pantallas CRUD del backoffice
+.crud-view {
+  border: 1.5px solid black;
+
+  h2 {
+    width: 100%;
+    margin: 0;
+    padding: 10px 1rem;
+    background: black;
+    color: white;
+  }
+}
+
+.crud-page {
+  display: flex;
+  flex-direction: row;
+  padding: 0 1rem 1rem 1rem;
+}
+
+.crud-container {
+  flex: 1;
+  margin-top: 20px;
+  border: 1.5px solid black;
+
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+  }
+
+  th,
+  td {
+    text-align: left;
+    padding: 0 10px;
+  }
+
+  tbody tr:nth-child(odd) {
+    background-color: var(--color-grey);
+  }
+}
+
+.crud-form-panel {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+}
+
+.crud-form-tab {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  background: black;
+  color: white;
+  margin-left: 10px;
+  border: 1.5px solid black;
+  padding: 10px 8px;
+  cursor: pointer;
+  white-space: nowrap;
+
+  .material-symbols-outlined {
+    transform: rotate(180deg);
+  }
+}
+
+.crud-form-container {
+  width: 0;
+  gap: 20px;
+  overflow: hidden;
+  padding: 0;
+  border: none;
+  transition: width 0.2s ease, padding 0.2s ease;
+
+  .crud-form {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+
+    // hijos directos: no debe alcanzar a los inputs dentro de app-multiselect
+    > input,
+    > select {
+      display: block;
+      width: 100%;
+      margin: 10px 0px;
+      border: 1.5px solid var(--color-primary);
+      border-radius: 5px;
+      color: var(--color-text);
+      font: inherit;
+      padding: 0.625rem 1rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+      box-sizing: border-box;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    app-multiselect {
+      display: block;
+      margin: 10px 0;
+    }
+  }
+}
+
+.crud-form-panel.abierto .crud-form-container {
+  width: 260px;
+  padding: 0 20px;
+  border: 1.5px solid black;
 }

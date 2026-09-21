@@ -182,16 +182,19 @@ export type Database = {
           created_at: string
           id: number
           name: string | null
+          floor: number | null
         }
         Insert: {
           created_at?: string
           id?: number
           name?: string | null
+          floor?: number | null
         }
         Update: {
           created_at?: string
           id?: number
           name?: string | null
+          floor?: number | null
         }
         Relationships: []
       }

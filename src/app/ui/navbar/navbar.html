@@ -1,7 +1,8 @@
 <div class="navbar">
-    <img src="/assets/logo.png" alt="Logo" class="logo" height="35px">
+    <img src="/assets/logo.png" alt="Logo" class="logo" height="35px" style="margin: auto 0" />
     <a href="#">CARTELERA</a>
     <a href="#">CANDY</a>
-    <a href="#" *isAdmin>ADMIN</a>
-    <a class="login-btn" (click)="modalService.open(loginModal)">LOGIN</a>
+    <!-- routerLinkActive es una directiva de Angular, agrega la clase que se le pasa -->
+    <a routerLink="/backoffice" routerLinkActive="active" *isAdmin>ADMIN</a>
+    <button class="login-btn" type="button" (click)="authService.userInformation() ? authService.signOut() : modalService.open(loginModal)">{{ authService.userInformation() ? 'LOGOUT' : 'LOGIN' }}</button>
 </div>

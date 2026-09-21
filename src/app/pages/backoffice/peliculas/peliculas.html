@@ -1,0 +1,78 @@
+<div class="crud-view">
+  <h2>Películas</h2>
+  <div class="crud-page">
+    <div class="crud-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Número</th>
+            <th>Título</th>
+            <th>Duración</th>
+            <th>Géneros</th>
+            <th>Idiomas</th>
+            <th>Formatos</th>
+            <th>Sinopsis</th>
+            <th>Imagen</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (pelicula of peliculas(); track pelicula.id) {
+            <tr>
+              <td>{{ pelicula.id }}</td>
+              <td>{{ pelicula.title }}</td>
+              <td>{{ pelicula.duration }}</td>
+              <td>{{ pelicula.genres }}</td>
+              <td>{{ pelicula.languages }}</td>
+              <td>{{ pelicula.available_formats }}</td>
+              <td>{{ pelicula.sinopsis }}</td>
+              <td>{{ pelicula.image_url }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <!-- agrega la clase "abierto" dependiendo de showForm (true/false) -->
+    <div class="crud-form-panel" [class.abierto]="showForm">
+      <button type="button" class="crud-form-tab" (click)="toggleForm()">
+        <span class="material-symbols-outlined">add</span>
+        AGREGAR NUEVA PELÍCULA
+      </button>
+      <div class="crud-form-container">
+        <form class="crud-form">
+          <label>Título:</label>
+          <input name="title" placeholder="Título" [(ngModel)]="newPelicula.title" />
+          <label>Duración:</label>
+          <input
+            name="duration"
+            type="number"
+            placeholder="Duración"
+            [(ngModel)]="newPelicula.duration"
+          />
+          <label>Géneros:</label>
+          <app-multiselect
+            name="genres"
+            placeholder="Géneros"
+            [options]="generosPelicula()"
+            [(ngModel)]="newPelicula.genres"
+          />
+          <label>Idiomas:</label>
+          <input name="languages" placeholder="Idiomas" [(ngModel)]="newPelicula.languages" />
+          <label>Formatos:</label>
+          <app-multiselect
+            name="available_formats"
+            placeholder="Formatos"
+            [options]="formatosPelicula()"
+            [(ngModel)]="newPelicula.available_formats"
+          />
+          <label>Sinopsis:</label>
+          <input name="sinopsis" placeholder="Sinopsis" [(ngModel)]="newPelicula.sinopsis" />
+          <label>Imagen:</label>
+          <input name="image_url" placeholder="Imagen" [(ngModel)]="newPelicula.image_url" />
+          <app-button style="margin: 10px 0px" type="submit" (click)="addPelicula()"
+            >Agregar</app-button
+          >
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

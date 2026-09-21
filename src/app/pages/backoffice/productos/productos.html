@@ -1,0 +1,47 @@
+<div class="crud-view">
+  <h2>Productos</h2>
+  <div class="crud-page">
+    <div class="crud-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Número</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Stock</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (producto of productos(); track producto.id) {
+            <tr>
+              <td>{{ producto.id }}</td>
+              <td>{{ producto.name }}</td>
+              <td>{{ producto.price }}</td>
+              <td>{{ producto.stock }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <!-- agrega la clase "abierto" dependiendo de showForm (true/false) -->
+    <div class="crud-form-panel" [class.abierto]="showForm">
+      <button type="button" class="crud-form-tab" (click)="toggleForm()">
+        <span class="material-symbols-outlined">add</span>
+        AGREGAR NUEVO PRODUCTO
+      </button>
+      <div class="crud-form-container">
+        <form class="crud-form">
+          <label>Nombre:</label>
+          <input name="name" placeholder="Nombre" [(ngModel)]="newProducto.name" />
+          <label>Precio:</label>
+          <input name="price" type="number" placeholder="Precio" [(ngModel)]="newProducto.price" />
+          <label>Stock:</label>
+          <input name="stock" type="number" placeholder="Stock" [(ngModel)]="newProducto.stock" />
+          <app-button style="margin: 10px 0px" type="submit" (click)="addProducto()"
+            >Agregar</app-button
+          >
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

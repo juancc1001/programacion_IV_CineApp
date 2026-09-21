@@ -1,0 +1,64 @@
+<div class="crud-view">
+  <h2>Funciones</h2>
+  //TODO: convertir esta vista en calendario
+  <div class="crud-page">
+    <div class="crud-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Número</th>
+            <th>Película</th>
+            <th>Sala</th>
+            <th>Hora</th>
+            <th>Desde</th>
+            <th>Hasta</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (funcion of funciones(); track funcion.id) {
+            <tr>
+              <td>{{ funcion.id }}</td>
+              <td>{{ funcion.movie_id }}</td>
+              <td>{{ funcion.room_id }}</td>
+              <td>{{ funcion.start_time }}</td>
+              <td>{{ funcion.from }}</td>
+              <td>{{ funcion.to }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <!-- agrega la clase "abierto" dependiendo de showForm (true/false) -->
+    <div class="crud-form-panel" [class.abierto]="showForm">
+      <button type="button" class="crud-form-tab" (click)="toggleForm()">
+        <span class="material-symbols-outlined">add</span>
+        AGREGAR NUEVA FUNCIÓN
+      </button>
+      <div class="crud-form-container">
+        <form class="crud-form">
+          <label>Película:</label>
+          <select name="movie_id" [(ngModel)]="newFuncion.movie_id">
+            @for (pelicula of peliculas(); track pelicula.id) {
+              <option [ngValue]="pelicula.id">{{ pelicula.title }}</option>
+            }
+          </select>
+          <label>Sala:</label>
+          <select name="room_id" [(ngModel)]="newFuncion.room_id">
+            @for (sala of salas(); track sala.id) {
+              <option [ngValue]="sala.id">{{ sala.name }}</option>
+            }
+          </select>
+          <label>Hora:</label>
+          <input name="start_time" type="time" [(ngModel)]="newFuncion.start_time" />
+          <label>Desde:</label>
+          <input name="from" type="date" [(ngModel)]="newFuncion.from" />
+          <label>Hasta:</label>
+          <input name="to" type="date" [(ngModel)]="newFuncion.to" />
+          <app-button style="margin: 10px 0px" type="submit" (click)="addFuncion()"
+            >Agregar</app-button
+          >
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
