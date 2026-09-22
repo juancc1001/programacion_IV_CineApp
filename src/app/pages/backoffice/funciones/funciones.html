@@ -9,6 +9,8 @@
             <th>Número</th>
             <th>Película</th>
             <th>Sala</th>
+            <th>Formato</th>
+            <th>Idioma</th>
             <th>Hora</th>
             <th>Desde</th>
             <th>Hasta</th>
@@ -20,6 +22,8 @@
               <td>{{ funcion.id }}</td>
               <td>{{ funcion.movie_id }}</td>
               <td>{{ funcion.room_id }}</td>
+              <td>{{ funcion.format }}</td>
+              <td>{{ funcion.language }}</td>
               <td>{{ funcion.start_time }}</td>
               <td>{{ funcion.from }}</td>
               <td>{{ funcion.to }}</td>
@@ -37,7 +41,7 @@
       <div class="crud-form-container">
         <form class="crud-form">
           <label>Película:</label>
-          <select name="movie_id" [(ngModel)]="newFuncion.movie_id">
+          <select name="movie_id" [(ngModel)]="newFuncion.movie_id" (ngModelChange)="onPeliculaChange()">
             @for (pelicula of peliculas(); track pelicula.id) {
               <option [ngValue]="pelicula.id">{{ pelicula.title }}</option>
             }
@@ -48,12 +52,27 @@
               <option [ngValue]="sala.id">{{ sala.name }}</option>
             }
           </select>
+          <label>Formato:</label>
+          <select name="format" [(ngModel)]="newFuncion.format">
+            @for (formato of formatosDisponibles(); track formato) {
+              <option [ngValue]="formato">{{ formato }}</option>
+            }
+          </select>
+          <label>Idioma:</label>
+          <select name="language" [(ngModel)]="newFuncion.language">
+            @for (idioma of idiomasDisponibles(); track idioma) {
+              <option [ngValue]="idioma">{{ idioma }}</option>
+            }
+          </select>
           <label>Hora:</label>
           <input name="start_time" type="time" [(ngModel)]="newFuncion.start_time" />
           <label>Desde:</label>
           <input name="from" type="date" [(ngModel)]="newFuncion.from" />
           <label>Hasta:</label>
           <input name="to" type="date" [(ngModel)]="newFuncion.to" />
+          @if (error) {
+            <p class="form-error">{{ error }}</p>
+          }
           <app-button style="margin: 10px 0px" type="submit" (click)="addFuncion()"
             >Agregar</app-button
           >

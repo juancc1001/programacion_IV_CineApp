@@ -1,4 +1,4 @@
-﻿export type Json =
+export type Json =
   | string
   | number
   | boolean
@@ -123,6 +123,7 @@ export type Database = {
           created_at: string
           duration: number | null
           genres: string | null
+          highlighted: boolean
           id: number
           image_url: string | null
           languages: string | null
@@ -134,6 +135,7 @@ export type Database = {
           created_at?: string
           duration?: number | null
           genres?: string | null
+          highlighted?: boolean
           id?: number
           image_url?: string | null
           languages?: string | null
@@ -145,6 +147,7 @@ export type Database = {
           created_at?: string
           duration?: number | null
           genres?: string | null
+          highlighted?: boolean
           id?: number
           image_url?: string | null
           languages?: string | null
@@ -180,29 +183,31 @@ export type Database = {
       rooms: {
         Row: {
           created_at: string
+          floor: number | null
           id: number
           name: string | null
-          floor: number | null
         }
         Insert: {
           created_at?: string
+          floor?: number | null
           id?: number
           name?: string | null
-          floor?: number | null
         }
         Update: {
           created_at?: string
+          floor?: number | null
           id?: number
           name?: string | null
-          floor?: number | null
         }
         Relationships: []
       }
       showtimes: {
         Row: {
           created_at: string
+          format: string
           from: string | null
           id: number
+          language: string
           movie_id: number | null
           room_id: number
           start_time: string | null
@@ -210,8 +215,10 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          format?: string
           from?: string | null
           id?: number
+          language?: string
           movie_id?: number | null
           room_id: number
           start_time?: string | null
@@ -219,8 +226,10 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          format?: string
           from?: string | null
           id?: number
+          language?: string
           movie_id?: number | null
           room_id?: number
           start_time?: string | null
@@ -311,7 +320,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      is_admin: { Args: never; Returns: boolean }
     }
     Enums: {
       [_ in never]: never

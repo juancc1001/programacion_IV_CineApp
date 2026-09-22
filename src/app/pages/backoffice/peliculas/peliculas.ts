@@ -26,6 +26,7 @@ export class Peliculas {
     available_formats: [] as string[],
     image_url: '',
     sinopsis: '',
+    highlighted: false,
   };
   showForm = false;
 
@@ -56,6 +57,7 @@ export class Peliculas {
       available_formats: [],
       image_url: '',
       sinopsis: '',
+      highlighted: false,
     };
     await this.loadPeliculas();
   }

@@ -68,6 +68,11 @@
           <input name="sinopsis" placeholder="Sinopsis" [(ngModel)]="newPelicula.sinopsis" />
           <label>Imagen:</label>
           <input name="image_url" placeholder="Imagen" [(ngModel)]="newPelicula.image_url" />
+          <label class="crud-form-toggle">
+            Destacada:
+            <input type="checkbox" name="highlighted" [(ngModel)]="newPelicula.highlighted" />
+            <span class="crud-form-switch"></span>
+          </label>
           <app-button style="margin: 10px 0px" type="submit" (click)="addPelicula()"
             >Agregar</app-button
           >

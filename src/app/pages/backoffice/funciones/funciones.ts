@@ -25,8 +25,11 @@ export class Funciones {
     start_time: '',
     from: '',
     to: '',
+    format: '',
+    language: '',
   };
   showForm = false;
+  error: string | null = null;
 
   constructor() {
     this.loadFunciones();
@@ -50,9 +53,48 @@ export class Funciones {
     this.salas.set(await this.salasService.getSalas());
   }
 
+  // los formatos e idiomas dependen de la pelicula elegida
+  formatosDisponibles(): string[] {
+    return separarValores(this.peliculaSeleccionada()?.available_formats);
+  }
+
+  idiomasDisponibles(): string[] {
+    return separarValores(this.peliculaSeleccionada()?.languages);
+  }
+
+  onPeliculaChange() {
+    this.newFuncion.format = '';
+    this.newFuncion.language = '';
+  }
+
+  private peliculaSeleccionada(): Pelicula | undefined {
+    return this.peliculas().find((pelicula) => pelicula.id === this.newFuncion.movie_id);
+  }
+
   async addFuncion() {
+    this.error = await this.funcionesService.validateFuncion(this.newFuncion);
+
+    if (this.error) {
+      return;
+    }
+
     await this.funcionesService.createFuncion(this.newFuncion);
-    this.newFuncion = { movie_id: 0, room_id: 0, start_time: '', from: '', to: '' };
+    this.newFuncion = {
+      movie_id: 0,
+      room_id: 0,
+      start_time: '',
+      from: '',
+      to: '',
+      format: '',
+      language: '',
+    };
     await this.loadFunciones();
   }
+}
+
+function separarValores(valores: string | null | undefined): string[] {
+  return (valores ?? '')
+    .split(',')
+    .map((valor) => valor.trim())
+    .filter((valor) => valor !== '');
 }

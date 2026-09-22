@@ -1,11 +1,67 @@
-<section class="home-container">
+<div class="home-container">
+  <div class="home-cards">
+    @for (pelicula of destacadas(); track pelicula.id) {
+      <article class="movie-card">
+        <img src="/assets/poster_placeholder.jpg" [alt]="pelicula.title" />
+        <div class="movie-info">
+          <h3>{{ pelicula.title }}</h3>
+          <p>{{ pelicula.duration }} min &middot; {{ pelicula.genres }}</p>
+          <p style="">{{ pelicula.available_formats }}</p>
+          <p class="movie-sinopsis">{{ pelicula.sinopsis }}</p>
+        </div>
+      </article>
+    }
+  </div>
+  <div class="cartelera-container">
+    <div class="cartelera-dias">
+      @for (dia of diasCartelera; track dia.getTime()) {
+        <button
+          type="button"
+          class="dia-boton"
+          [class.activo]="dia === diaSeleccionado()"
+          (click)="seleccionarDia(dia)"
+        >
+          <span class="dia-nombre">{{ nombreDia(dia) }}</span>
+          <span class="dia-numero">{{ dia.getDate() }} {{ mesAbreviado(dia) }}</span>
+        </button>
+      }
+    </div>
+    <div class="dia-container">
+      @for (enCartelera of cartelera(); track enCartelera.pelicula.id) {
+        <article class="cartelera-card">
+          <img src="/assets/poster_placeholder.jpg" [alt]="enCartelera.pelicula.title" />
+          <div class="cartelera-info">
+            <h3>{{ enCartelera.pelicula.title }}</h3>
+            <p>{{ enCartelera.pelicula.duration }} min &middot; {{ enCartelera.pelicula.genres }}</p>
+            <p>{{ enCartelera.pelicula.available_formats }}</p>
+            <p class="movie-sinopsis">{{ enCartelera.pelicula.sinopsis }}</p>
+            <div class="cartelera-horarios">
+              @for (horario of enCartelera.horarios; track horario) {
+                <span class="horario-chip">
+                  {{ horario.horario.toString() }} - {{ horario.formato.toString() }} - {{ horario.language.toString() }}
+                </span>
+              }
+            </div>
+          </div>
+        </article>
+      }
+    </div>
+  </div>
 
-  @if (userInformation()) {
-    <div class="user-card">
+</div>
+
+
+
+
+<!-- 
+@if (userInformation()) {
+    <div style="background-color: tomato; margin-top: 50px;">
+      //TODO eliminar esto, es log
       <p><strong>Nombre:</strong> {{ userFullName }}</p>
       <p><strong>Rol:</strong> {{ roleLabel }}</p>
     </div>
   } @else {
-    <p>Cargando información del usuario...</p>
+    <p>No logueado</p>
   }
-</section>
+-->
+  
