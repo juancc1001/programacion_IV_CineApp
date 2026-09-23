@@ -4,5 +4,6 @@
     <a href="#">CANDY</a>
     <!-- routerLinkActive es una directiva de Angular, agrega la clase que se le pasa -->
     <a routerLink="/backoffice" routerLinkActive="active" *isAdmin>ADMIN</a>
+    <a routerLink="/carrito" routerLinkActive="active"><span class="material-symbols-outlined">shopping_cart</span></a>
     <button class="login-btn" type="button" (click)="authService.userInformation() ? authService.signOut() : modalService.open(loginModal)">{{ authService.userInformation() ? 'LOGOUT' : 'LOGIN' }}</button>
 </div>

@@ -32,26 +32,30 @@
           <img src="/assets/poster_placeholder.jpg" [alt]="enCartelera.pelicula.title" />
           <div class="cartelera-info">
             <h3>{{ enCartelera.pelicula.title }}</h3>
-            <p>{{ enCartelera.pelicula.duration }} min &middot; {{ enCartelera.pelicula.genres }}</p>
+            <p>
+              {{ enCartelera.pelicula.duration }} min &middot; {{ enCartelera.pelicula.genres }}
+            </p>
             <p>{{ enCartelera.pelicula.available_formats }}</p>
             <p class="movie-sinopsis">{{ enCartelera.pelicula.sinopsis }}</p>
-            <div class="cartelera-horarios">
-              @for (horario of enCartelera.horarios; track horario) {
-                <span class="horario-chip">
-                  {{ horario.horario.toString() }} - {{ horario.formato.toString() }} - {{ horario.language.toString() }}
-                </span>
-              }
+            <div class="cartelera-acciones">
+              <div class="cartelera-horarios">
+                @for (horario of enCartelera.horarios; track horario) {
+                  <span class="horario-chip">
+                    {{ horario.horario.toString() }} - {{ horario.formato.toString() }} -
+                    {{ horario.language.toString() }}
+                  </span>
+                }
+              </div>
+              <app-button (click)="abrirCompra(enCartelera.pelicula)" bg="secondary"
+                >Comprar</app-button
+              >
             </div>
           </div>
         </article>
       }
     </div>
   </div>
-
 </div>
-
-
-
 
 <!-- 
 @if (userInformation()) {
@@ -64,4 +68,3 @@
     <p>No logueado</p>
   }
 -->
-  

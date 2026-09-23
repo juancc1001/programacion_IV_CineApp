@@ -1,0 +1,23 @@
+<div class="mapa-sala">
+  <div class="pantalla">PANTALLA</div>
+  @for (fila of filas; track fila.letra) {
+    <div class="fila">
+      <span class="fila-letra">{{ fila.letra }}</span>
+      @for (bloque of fila.bloques; track $index) {
+        <div class="bloque">
+          @for (butaca of bloque; track butaca.codigo) {
+            <button
+              type="button"
+              class="butaca"
+              [class.seleccionada]="seleccionadas().includes(butaca.codigo)"
+              [disabled]="ocupadas().includes(butaca.codigo)"
+              (click)="toggle(butaca.codigo)"
+            >
+              {{ butaca.numero }}
+            </button>
+          }
+        </div>
+      }
+    </div>
+  }
+</div>

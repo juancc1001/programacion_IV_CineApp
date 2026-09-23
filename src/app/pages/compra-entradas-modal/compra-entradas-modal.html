@@ -1,0 +1,26 @@
+<div class="compra-backdrop" (click)="close()">
+  <div class="compra-container" (click)="$event.stopPropagation()">
+    <button type="button" class="close-btn" (click)="close()">&times;</button>
+    <h2>{{ compra()?.pelicula?.title }}</h2>
+    <div class="formatos">
+      @for (grupo of funcionesPorFormato(); track grupo.formato) {
+        <div class="formato-fila">
+          <span class="formato-nombre">{{ grupo.formato }}</span>
+          @for (funcion of grupo.funciones; track funcion.id) {
+            <button
+              type="button"
+              class="horario-boton"
+              [class.activo]="funcion === funcionSeleccionada()"
+              (click)="funcionSeleccionada.set(funcion)"
+            >
+              {{ funcion.start_time?.slice(0, 5) }}
+            </button>
+          }
+        </div>
+      }
+    </div>
+    @if (funcionSeleccionada(); as funcion) {
+      <app-mapa-sala [funcionId]="funcion.id" />
+    }
+  </div>
+</div>

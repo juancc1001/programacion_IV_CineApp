@@ -3,8 +3,13 @@ import { AuthService } from '../../services/auth.service';
 import { Roles } from '../../../types/roles';
 import { Pelicula, PeliculasService } from '../../services/peliculas.service';
 import { FuncionesService } from '../../services/funciones.service';
+import { CarritoService } from '../../services/carrito.service';
+import { Button } from '../../ui/button/button';
+import { ModalService } from '../../services/modal.service';
+import { CompraEntradasModal } from '../compra-entradas-modal/compra-entradas-modal';
 
 @Component({
+  imports: [Button],
   selector: 'app-home',
   styleUrl: './home.scss',
   templateUrl: './home.html',
@@ -13,6 +18,8 @@ export class Home {
   private readonly authService = inject(AuthService);
   private readonly moviesService = inject(PeliculasService);
   private readonly funcionesService = inject(FuncionesService);
+  private readonly carritoService = inject(CarritoService);
+  private readonly modalService = inject(ModalService);
 
   readonly userInformation = this.authService.userInformation;
   destacadas = signal<Pelicula[]>([]);
@@ -91,6 +98,14 @@ export class Home {
     return ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'][
       dia.getMonth()
     ];
+  }
+
+  abrirCompra(pelicula: Pelicula) {
+    this.carritoService.compraSeleccionada.set({
+      pelicula,
+      fecha: aFechaIso(this.diaSeleccionado()),
+    });
+    this.modalService.open(CompraEntradasModal);
   }
 
   seleccionarDia(dia: Date) {

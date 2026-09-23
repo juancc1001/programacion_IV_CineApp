@@ -4,6 +4,7 @@ import { Roles } from '../types/roles';
 
 export const routes: Routes = [
   { path: '', loadComponent: () => import('./pages/home/home').then((m) => m.Home) },
+  { path: 'carrito', loadComponent: () => import('./pages/carrito/carrito').then((m) => m.Carrito) },
   { path: 'backoffice', 
     loadComponent: () => import('./pages/backoffice/backoffice').then((m) => m.Backoffice), 
     canMatch: [roleGuard(Roles.Admin)],

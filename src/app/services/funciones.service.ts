@@ -50,6 +50,20 @@ export class FuncionesService {
     return data;
   }
 
+  async getButacasOcupadas(funcionId: number): Promise<string[]> {
+    const { data, error } = await this.supabase
+      .from('booking_seats')
+      .select('seat, bookings!inner(showtime_id)')
+      .eq('bookings.showtime_id', funcionId);
+
+    if (error) {
+      console.error('Error loading butacas ocupadas:', error);
+      return [];
+    }
+
+    return data.map((butaca) => butaca.seat);
+  }
+
   //valida que no haya funcion hasta media hora antes de que comience la que se quiera ingresar
   async validateFuncion(funcion: TablesInsert<'showtimes'>): Promise<string | null> {
     const { data, error } = await this.supabase
