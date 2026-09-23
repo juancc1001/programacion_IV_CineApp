@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: cineapp
+    runtime: node
+    plan: free
+    buildCommand: npm ci && npm run build
+    startCommand: node dist/tp-prograiv/server/server.mjs
+    envVars:
+      - key: NODE_VERSION
+        value: 24
+      - key: NG_ALLOWED_HOSTS
+        value: "*.onrender.com"
