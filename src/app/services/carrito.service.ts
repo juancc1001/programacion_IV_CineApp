@@ -6,7 +6,10 @@ const CARRITO_KEY = 'carrito';
 
 export interface ItemCarrito {
   pelicula: Pelicula;
-  cantidad: number;
+  funcionId: number;
+  horario: string;
+  formato: string;
+  butacas: string[];
 }
 
 export interface CompraSeleccionada {
@@ -18,25 +21,18 @@ export interface CompraSeleccionada {
   providedIn: 'root',
 })
 export class CarritoService {
-  // pareciera que SSR no soporta localstorage
-
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   readonly items = signal<ItemCarrito[]>(this.leer());
   readonly compraSeleccionada = signal<CompraSeleccionada | null>(null);
 
-  agregar(pelicula: Pelicula): void {
-    this.items.update((items) => {
-      const existente = items.find((item) => item.pelicula.id === pelicula.id);
+  agregar(item: ItemCarrito): void {
+    this.items.update((items) => [...items, item]);
+    this.guardar();
+  }
 
-      if (existente) {
-        return items.map((item) =>
-          item === existente ? { ...item, cantidad: item.cantidad + 1 } : item,
-        );
-      }
-
-      return [...items, { pelicula, cantidad: 1 }];
-    });
+  eliminar(index: number): void {
+    this.items.update((items) => items.filter((_, i) => i !== index));
     this.guardar();
   }
 

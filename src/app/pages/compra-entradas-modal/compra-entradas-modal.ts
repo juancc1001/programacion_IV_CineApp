@@ -1,20 +1,24 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, viewChild } from '@angular/core';
 import { CarritoService } from '../../services/carrito.service';
 import { Funcion, FuncionesService } from '../../services/funciones.service';
 import { ModalService } from '../../services/modal.service';
 import { MapaSala } from '../../ui/mapa-sala/mapa-sala';
+import { Button } from '../../ui/button/button';
 
 @Component({
-  imports: [MapaSala],
+  imports: [MapaSala, Button],
   selector: 'app-compra-entradas-modal',
   styleUrl: './compra-entradas-modal.scss',
   templateUrl: './compra-entradas-modal.html',
 })
 export class CompraEntradasModal {
   private readonly funcionesService = inject(FuncionesService);
+  private readonly carritoService = inject(CarritoService);
   private readonly modalService = inject(ModalService);
 
-  readonly compra = inject(CarritoService).compraSeleccionada;
+  readonly compra = this.carritoService.compraSeleccionada;
+  readonly mapaSala = viewChild(MapaSala);
+
   funcionesPorFormato = signal<FuncionesPorFormato[]>([]);
   funcionSeleccionada = signal<Funcion | null>(null);
 
@@ -43,6 +47,30 @@ export class CompraEntradasModal {
     this.funcionesPorFormato.set(
       [...formatoDict].map(([formato, funciones]) => ({ formato, funciones })),
     );
+  }
+
+  get butacasSeleccionadas(): string[] {
+    return this.mapaSala()?.seleccionadas() ?? [];
+  }
+
+  agregarAlCarrito() {
+    const funcion = this.funcionSeleccionada();
+    const butacas = this.butacasSeleccionadas;
+    const pelicula = this.compra()?.pelicula;
+
+    if (!funcion || !butacas.length || !pelicula) {
+      return;
+    }
+
+    this.carritoService.agregar({
+      pelicula,
+      funcionId: funcion.id,
+      horario: funcion.start_time?.slice(0, 5) ?? '',
+      formato: funcion.format,
+      butacas,
+    });
+
+    this.close();
   }
 
   close() {
