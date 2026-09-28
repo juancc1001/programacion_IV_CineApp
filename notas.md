@@ -5,6 +5,7 @@
 3- selección de butacas realtime
 
 TODO:
+documento con requerimientos a realizar
 top 3 peliculas en  home
 sistema de reseñas/puntaje en la home
 comentarios en peliculas con el puntaje

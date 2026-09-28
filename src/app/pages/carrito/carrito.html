@@ -1,8 +1,20 @@
 <div class="carrito-container">
   <h2>Carrito</h2>
-  @if (items().length === 0) {
+
+  @if (codigosReserva().length > 0) {
+    <div class="reserva-exito">
+      @for (codigo of codigosReserva(); track codigo) {
+        <p>Tu numero de reserva es: <strong>{{ codigo }}</strong></p>
+      }
+      <app-button bg="black" (click)="cerrarReserva()">Aceptar</app-button>
+    </div>
+  }
+
+  @if (items().length === 0 && codigosReserva().length === 0) {
     <p class="carrito-vacio">El carrito esta vacio.</p>
-  } @else {
+  }
+
+  @if (items().length > 0) {
     <div class="carrito-items">
       @for (item of items(); track $index) {
         <div class="carrito-item">
@@ -15,16 +27,17 @@
             <p>{{ item.formato }} &middot; {{ item.horario }}</p>
             <p>Butacas: {{ item.butacas.join(', ') }}</p>
           </div>
-          <div class="carrito-item-acciones">
-            <app-button bg="secondary" (click)="comprar(item, $index)">
-              {{ comprando() === $index ? 'Comprando...' : 'Comprar' }}
-            </app-button>
-            <button type="button" class="eliminar-btn" (click)="eliminar($index)">
-              Eliminar
-            </button>
-          </div>
+          <button type="button" class="eliminar-btn" (click)="eliminar($index)">
+            Eliminar
+          </button>
         </div>
       }
+    </div>
+
+    <div class="comprar-todo">
+      <app-button bg="black" (click)="comprarCarrito()">
+        {{ comprando() ? 'Comprando...' : 'Comprar' }}
+      </app-button>
     </div>
   }
 </div>

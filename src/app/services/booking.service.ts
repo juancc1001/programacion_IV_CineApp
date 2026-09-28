@@ -12,13 +12,9 @@ export class BookingService {
       data: { session },
     } = await this.supabase.auth.getSession();
 
-    if (!session?.user) {
-      return null;
-    }
-
     const { data: booking, error } = await this.supabase
       .from('bookings')
-      .insert({ showtime_id: showtimeId, user_id: session.user.id })
+      .insert({ showtime_id: showtimeId, user_id: session?.user?.id ?? null })
       .select()
       .single();
 

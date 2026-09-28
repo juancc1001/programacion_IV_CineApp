@@ -56,6 +56,25 @@ h2 {
   gap: 8px;
 }
 
+.comprar-todo {
+  margin-top: 16px;
+  text-align: right;
+}
+
+.reserva-exito {
+  text-align: center;
+  padding: 20px;
+  margin-bottom: 16px;
+  border: 1.5px solid black;
+  border-radius: 2px;
+  background: white;
+
+  p {
+    margin: 0 0 12px;
+    font-size: 18px;
+  }
+}
+
 .eliminar-btn {
   padding: 6px 16px;
   border: 1.5px solid #c00;
@@ -65,4 +84,6 @@ h2 {
   font: inherit;
   font-size: 13px;
   cursor: pointer;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
 }

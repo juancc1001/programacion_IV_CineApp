@@ -32,8 +32,12 @@ export class CarritoService {
   }
 
   eliminar(index: number): void {
-    //filter todos los elementos que no sean el eliminado
-    this.items.update((items) => items.filter((item, i) => i !== index));
+    this.items.update((items) => items.filter((_, i) => i !== index));
+    this.guardar();
+  }
+
+  vaciar(): void {
+    this.items.set([]);
     this.guardar();
   }
 
