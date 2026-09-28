@@ -25,7 +25,11 @@
               <td>{{ pelicula.languages }}</td>
               <td>{{ pelicula.available_formats }}</td>
               <td>{{ pelicula.sinopsis }}</td>
-              <td>{{ pelicula.image_url }}</td>
+              <td>
+                @if (pelicula.image_url) {
+                  <img [src]="pelicula.image_url" alt="poster" style="height: 60px" />
+                }
+              </td>
             </tr>
           }
         </tbody>
@@ -67,7 +71,7 @@
           <label>Sinopsis:</label>
           <input name="sinopsis" placeholder="Sinopsis" [(ngModel)]="newPelicula.sinopsis" />
           <label>Imagen:</label>
-          <input name="image_url" placeholder="Imagen" [(ngModel)]="newPelicula.image_url" />
+          <input type="file" accept="image/*" (change)="onFileSelected($event)" />
           <label class="crud-form-toggle">
             Destacada:
             <input type="checkbox" name="highlighted" [(ngModel)]="newPelicula.highlighted" />

@@ -1,1 +1,30 @@
-<p>carrito works!</p>
+<div class="carrito-container">
+  <h2>Carrito</h2>
+  @if (items().length === 0) {
+    <p class="carrito-vacio">El carrito esta vacio.</p>
+  } @else {
+    <div class="carrito-items">
+      @for (item of items(); track $index) {
+        <div class="carrito-item">
+          <img
+            [src]="item.pelicula.image_url || '/assets/poster_placeholder.jpg'"
+            [alt]="item.pelicula.title"
+          />
+          <div class="carrito-item-info">
+            <h3>{{ item.pelicula.title }}</h3>
+            <p>{{ item.formato }} &middot; {{ item.horario }}</p>
+            <p>Butacas: {{ item.butacas.join(', ') }}</p>
+          </div>
+          <div class="carrito-item-acciones">
+            <app-button bg="secondary" (click)="comprar(item, $index)">
+              {{ comprando() === $index ? 'Comprando...' : 'Comprar' }}
+            </app-button>
+            <button type="button" class="eliminar-btn" (click)="eliminar($index)">
+              Eliminar
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

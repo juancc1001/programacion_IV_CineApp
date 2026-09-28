@@ -1,7 +1,8 @@
 import { Component, effect, inject, input, signal } from '@angular/core';
 import { FuncionesService } from '../../services/funciones.service';
 
-const LETRAS = 'ABCDEFGHIJKLMNOPQRST'.split('');
+const LETRAS = 'ABCDEFGHIJKLMNOPQRS'.split('');
+const FILA_DISCAPACIDAD = 'J';
 
 @Component({
   imports: [],
@@ -42,14 +43,17 @@ export class MapaSala {
   }
 }
 
-// cada fila tiene 3 bloques de 4, 20 y 4 butacas, numeradas de 1 a 28
 function crearFilas(): Fila[] {
   const filas: Fila[] = [];
 
   for (const letra of LETRAS) {
+    const discapacidad = letra === FILA_DISCAPACIDAD;
     filas.push({
       letra,
-      bloques: [crearButacas(letra, 1, 4), crearButacas(letra, 5, 24), crearButacas(letra, 25, 28)],
+      discapacidad,
+      bloques: discapacidad
+        ? [crearButacas(letra, 1, 2), crearButacas(letra, 3, 12), crearButacas(letra, 13, 14)]
+        : [crearButacas(letra, 1, 4), crearButacas(letra, 5, 24), crearButacas(letra, 25, 28)],
     });
   }
 
@@ -68,6 +72,7 @@ function crearButacas(letra: string, desde: number, hasta: number): Butaca[] {
 
 interface Fila {
   letra: string;
+  discapacidad: boolean;
   bloques: Butaca[][];
 }
 

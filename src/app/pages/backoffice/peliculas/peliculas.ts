@@ -24,10 +24,10 @@ export class Peliculas {
     genres: [] as string[],
     languages: '',
     available_formats: [] as string[],
-    image_url: '',
     sinopsis: '',
     highlighted: false,
   };
+  selectedFile: File | null = null;
   showForm = false;
 
   constructor() {
@@ -42,23 +42,34 @@ export class Peliculas {
     this.peliculas.set(await this.peliculasService.getPeliculas());
   }
 
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.selectedFile = input.files?.[0] ?? null;
+  }
+
   async addPelicula() {
+    let imageUrl: string | null = null;
+    if (this.selectedFile) {
+      imageUrl = await this.peliculasService.uploadImage(this.selectedFile);
+    }
+
     await this.peliculasService.createPelicula({
       ...this.newPelicula,
       genres: this.newPelicula.genres.join(', '),
       available_formats: this.newPelicula.available_formats.join(', '),
+      image_url: imageUrl,
     });
-    
+
     this.newPelicula = {
       title: '',
       duration: 0,
       genres: [],
       languages: '',
       available_formats: [],
-      image_url: '',
       sinopsis: '',
       highlighted: false,
     };
+    this.selectedFile = null;
     await this.loadPeliculas();
   }
 }

@@ -2,7 +2,10 @@
   <div class="home-cards">
     @for (pelicula of destacadas(); track pelicula.id) {
       <article class="movie-card">
-        <img src="/assets/poster_placeholder.jpg" [alt]="pelicula.title" />
+        <img
+          [src]="pelicula.image_url || '/assets/poster_placeholder.jpg'"
+          [alt]="pelicula.title"
+        />
         <div class="movie-info">
           <h3>{{ pelicula.title }}</h3>
           <p>{{ pelicula.duration }} min &middot; {{ pelicula.genres }}</p>
@@ -21,15 +24,27 @@
           [class.activo]="dia === diaSeleccionado()"
           (click)="seleccionarDia(dia)"
         >
-          <span class="dia-nombre">{{ nombreDia(dia) }}</span>
-          <span class="dia-numero">{{ dia.getDate() }} {{ mesAbreviado(dia) }}</span>
+          <span class="dia-nombre"
+            >{{ nombreDia(dia) }} {{ dia.getDate() }} {{ mesAbreviado(dia) }}</span
+          >
         </button>
       }
     </div>
+    <div class="buscador">
+      <app-input
+        placeholder="Buscar por título o género..."
+        [(ngModel)]="busqueda"
+        (ngModelChange)="filtrarCartelera()"
+        name="busqueda"
+      />
+    </div>
     <div class="dia-container">
-      @for (enCartelera of cartelera(); track enCartelera.pelicula.id) {
+      @for (enCartelera of carteleraFiltrada(); track enCartelera.pelicula.id) {
         <article class="cartelera-card">
-          <img src="/assets/poster_placeholder.jpg" [alt]="enCartelera.pelicula.title" />
+          <img
+            [src]="enCartelera.pelicula.image_url || '/assets/poster_placeholder.jpg'"
+            [alt]="enCartelera.pelicula.title"
+          />
           <div class="cartelera-info">
             <h3>{{ enCartelera.pelicula.title }}</h3>
             <p>

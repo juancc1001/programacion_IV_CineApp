@@ -69,3 +69,17 @@ h2 {
     color: white;
   }
 }
+
+.confirmar-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #ddd;
+}
+
+.seleccion-resumen {
+  font-size: 14px;
+  font-weight: bold;
+}

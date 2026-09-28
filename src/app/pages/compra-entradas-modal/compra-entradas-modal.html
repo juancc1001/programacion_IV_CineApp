@@ -21,6 +21,18 @@
     </div>
     @if (funcionSeleccionada(); as funcion) {
       <app-mapa-sala [funcionId]="funcion.id" />
+      @if (butacasSeleccionadas.length) {
+        <div class="confirmar-section">
+          <span class="seleccion-resumen">
+            {{ butacasSeleccionadas.length }}
+            {{ butacasSeleccionadas.length === 1 ? 'butaca' : 'butacas' }}:
+            {{ butacasSeleccionadas.join(', ') }}
+          </span>
+          <app-button bg="secondary" (click)="agregarAlCarrito()">
+            Agregar al carrito
+          </app-button>
+        </div>
+      }
     }
   </div>
 </div>

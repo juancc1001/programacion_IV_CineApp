@@ -1,15 +1,17 @@
 import { Component, inject, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Roles } from '../../../types/roles';
 import { Pelicula, PeliculasService } from '../../services/peliculas.service';
 import { FuncionesService } from '../../services/funciones.service';
 import { CarritoService } from '../../services/carrito.service';
 import { Button } from '../../ui/button/button';
+import { InputComponent } from '../../ui/input/input';
 import { ModalService } from '../../services/modal.service';
 import { CompraEntradasModal } from '../compra-entradas-modal/compra-entradas-modal';
 
 @Component({
-  imports: [Button],
+  imports: [Button, FormsModule, InputComponent],
   selector: 'app-home',
   styleUrl: './home.scss',
   templateUrl: './home.html',
@@ -27,6 +29,23 @@ export class Home {
   readonly diasCartelera = this.crearDiasCartelera();
   diaSeleccionado = signal(this.diasCartelera[0]);
   cartelera = signal<PeliculaEnCartelera[]>([]);
+  carteleraFiltrada = signal<PeliculaEnCartelera[]>([]);
+  busqueda = '';
+
+  filtrarCartelera() {
+    const termino = this.busqueda.toLowerCase().trim();
+    if (!termino) {
+      this.carteleraFiltrada.set(this.cartelera());
+      return;
+    }
+    this.carteleraFiltrada.set(
+      this.cartelera().filter(
+        (item) =>
+          item.pelicula.title?.toLowerCase().includes(termino) ||
+          item.pelicula.genres?.toLowerCase().includes(termino),
+      ),
+    );
+  }
   
   constructor() {
     this.loadPeliculasDestacadas();
@@ -76,6 +95,7 @@ export class Home {
     }
 
     this.cartelera.set([...peliculaDict.values()]);
+    this.filtrarCartelera();
   }
 
   nombreDia(dia: Date): string {

@@ -1,15 +1,17 @@
 <div class="mapa-sala">
   <div class="pantalla">PANTALLA</div>
+  <!-- Cada fila es un div que tiene 3 divs, uno por bloque, cada bloque contiene los botones -->
   @for (fila of filas; track fila.letra) {
     <div class="fila">
       <span class="fila-letra">{{ fila.letra }}</span>
       @for (bloque of fila.bloques; track $index) {
-        <div class="bloque">
+        <div class="bloque" [class.bloque-izq]="$index === 0" [class.bloque-centro]="$index === 1" [class.bloque-der]="$index === 2">
           @for (butaca of bloque; track butaca.codigo) {
             <button
               type="button"
               class="butaca"
               [class.seleccionada]="seleccionadas().includes(butaca.codigo)"
+              [class.discapacidad]="fila.discapacidad"
               [disabled]="ocupadas().includes(butaca.codigo)"
               (click)="toggle(butaca.codigo)"
             >
@@ -20,4 +22,22 @@
       }
     </div>
   }
+  <div class="referencias">
+    <div class="referencia">
+      <span class="butaca referencia-butaca"></span>
+      <span>Asiento disponible</span>
+    </div>
+    <div class="referencia">
+      <span class="butaca referencia-butaca seleccionada"></span>
+      <span>Asiento seleccionado</span>
+    </div>
+    <div class="referencia">
+      <span class="butaca referencia-butaca ocupada"></span>
+      <span>Asiento ocupado</span>
+    </div>
+    <div class="referencia">
+      <span class="butaca discapacidad referencia-butaca"></span>
+      <span>♿ Accesibilidad reducida</span>
+    </div>
+  </div>
 </div>
