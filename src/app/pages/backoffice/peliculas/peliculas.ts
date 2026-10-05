@@ -24,6 +24,7 @@ export class Peliculas {
     genres: [] as string[],
     languages: '',
     available_formats: [] as string[],
+    age_restriction: 0,
     sinopsis: '',
     highlighted: false,
   };
@@ -66,6 +67,7 @@ export class Peliculas {
       genres: [],
       languages: '',
       available_formats: [],
+      age_restriction: 0,
       sinopsis: '',
       highlighted: false,
     };

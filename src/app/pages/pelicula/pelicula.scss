@@ -1,0 +1,86 @@
+.cartelera-card {
+  display: flex;
+  gap: 20px;
+  padding: 10px;
+  border: 1.5px solid black;
+  border-radius: 2px;
+  background: white;
+  margin: 30px auto 0px auto;
+  max-width: 70%;
+
+  img {
+    flex: 0 0 170px;
+    width: 170px;
+    height: 250px;
+    object-fit: cover;
+  }
+
+  .cartelera-info {
+    padding: 10px 10px 10px 0;
+
+    h3 {
+      margin: 0 0 10px;
+    }
+
+    p {
+      margin: 0 0 6px;
+    }
+  }
+}
+
+.reviews {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 70%;
+  margin: 30px auto;
+}
+
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .review-input {
+    display: flex;
+    gap: 10px;
+  }
+
+  app-button {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+
+  textarea {
+    flex: 1;
+    min-height: 80px;
+    padding: 0.625rem 1rem;
+    border: 1.5px solid var(--color-primary);
+    border-radius: 5px;
+    font: inherit;
+  }
+}
+
+.estrella {
+  border: none;
+  background: none;
+  padding: 0;
+  font-size: 24px;
+  color: var(--color-primary);
+}
+
+.review {
+  padding: 10px;
+  border: 1.5px solid black;
+  border-radius: 2px;
+  background: white;
+
+  .estrellas-review {
+    margin-left: 10px;
+    color: var(--color-primary);
+  }
+
+  p {
+    margin: 6px 0 0;
+  }
+}

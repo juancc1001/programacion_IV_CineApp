@@ -1,16 +1,26 @@
-import { Injectable, PLATFORM_ID, inject, signal } from '@angular/core';
+import { Injectable, PLATFORM_ID, computed, inject, signal } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import type { Pelicula } from './peliculas.service';
+import type { Producto } from './productos.service';
 
 const CARRITO_KEY = 'carrito';
 
-export interface ItemCarrito {
+export interface ItemEntrada {
+  tipo: 'entrada';
   pelicula: Pelicula;
   funcionId: number;
   horario: string;
   formato: string;
   butacas: string[];
 }
+
+export interface ItemProducto {
+  tipo: 'producto';
+  producto: Producto;
+  cantidad: number;
+}
+
+export type ItemCarrito = ItemEntrada | ItemProducto;
 
 export interface CompraSeleccionada {
   pelicula: Pelicula;
@@ -24,10 +34,41 @@ export class CarritoService {
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   readonly items = signal<ItemCarrito[]>(this.leer());
+  readonly entrada = computed(() =>
+    this.items().find((item): item is ItemEntrada => item.tipo === 'entrada'),
+  );
   readonly compraSeleccionada = signal<CompraSeleccionada | null>(null);
 
-  agregar(item: ItemCarrito): void {
-    this.items.update((items) => [...items, item]);
+  // el carrito admite una sola funcion a la vez
+  agregarEntrada(item: Omit<ItemEntrada, 'tipo'>): boolean {
+    if (this.entrada()) {
+      return false;
+    }
+
+    this.items.update((items) => [...items, { tipo: 'entrada', ...item }]);
+    this.guardar();
+    return true;
+  }
+
+  agregarProducto(producto: Producto, cantidad: number): void {
+    const max = producto.stock ?? Infinity;
+    const existente = this.items().find(
+      (item): item is ItemProducto => item.tipo === 'producto' && item.producto.id === producto.id,
+    );
+
+    if (existente) {
+      this.items.update((items) =>
+        items.map((item) =>
+          item === existente ? { ...existente, cantidad: existente.cantidad + cantidad } : item,
+        ),
+      );
+    } else {
+      this.items.update((items) => [
+        ...items,
+        { tipo: 'producto', producto, cantidad: Math.min(cantidad, max) },
+      ]);
+    }
+
     this.guardar();
   }
 

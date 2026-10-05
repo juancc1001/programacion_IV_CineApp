@@ -9,6 +9,7 @@ import { Component, Input } from '@angular/core';
 export class Button {
   @Input() bg = 'primary';
   @Input() type: 'button' | 'submit' = 'button';
+  @Input() disabled = false;
 
   get backgroundColor(): string {
     if (this.bg === 'primary') {

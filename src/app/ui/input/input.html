@@ -1,10 +1,18 @@
-<input
-	class="input"
-	[type]="type"
-	[placeholder]="placeholder"
-	[style.border-color]="borderColorValue"
-	[value]="value"
-	[disabled]="disabled"
-	(input)="onInput($any($event.target).value)"
-	(blur)="onBlur()"
-/>
+<div class="input-wrapper">
+	<input
+		class="input"
+		[class.input-password]="type === 'password'"
+		[type]="type === 'password' && showPassword ? 'text' : type"
+		[placeholder]="placeholder"
+		[style.border-color]="borderColorValue"
+		[value]="value"
+		[disabled]="disabled"
+		(input)="onInput($any($event.target).value)"
+		(blur)="onBlur()"
+	/>
+	@if (type === 'password') {
+		<button type="button" class="toggle-password" (click)="showPassword = !showPassword">
+			<span class="material-symbols-outlined">{{ showPassword ? 'visibility_off' : 'visibility' }}</span>
+		</button>
+	}
+</div>

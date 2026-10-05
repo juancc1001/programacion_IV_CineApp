@@ -1,4 +1,5 @@
 import { Component, inject, signal, viewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { CarritoService } from '../../services/carrito.service';
 import { Funcion, FuncionesService } from '../../services/funciones.service';
 import { ModalService } from '../../services/modal.service';
@@ -15,12 +16,14 @@ export class CompraEntradasModal {
   private readonly funcionesService = inject(FuncionesService);
   private readonly carritoService = inject(CarritoService);
   private readonly modalService = inject(ModalService);
+  private readonly router = inject(Router);
 
   readonly compra = this.carritoService.compraSeleccionada;
   readonly mapaSala = viewChild(MapaSala);
 
   funcionesPorFormato = signal<FuncionesPorFormato[]>([]);
   funcionSeleccionada = signal<Funcion | null>(null);
+  error = signal<string | null>(null);
 
   constructor() {
     this.loadFunciones();
@@ -62,7 +65,7 @@ export class CompraEntradasModal {
       return;
     }
 
-    this.carritoService.agregar({
+    const agregada = this.carritoService.agregarEntrada({
       pelicula,
       funcionId: funcion.id,
       horario: funcion.start_time?.slice(0, 5) ?? '',
@@ -70,7 +73,13 @@ export class CompraEntradasModal {
       butacas,
     });
 
+    if (!agregada) {
+      this.error.set('Ya tenés una compra en curso');
+      return;
+    }
+
     this.close();
+    this.router.navigate(['/candy']);
   }
 
   close() {

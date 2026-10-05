@@ -18,15 +18,29 @@
     <div class="carrito-items">
       @for (item of items(); track $index) {
         <div class="carrito-item">
-          <img
-            [src]="item.pelicula.image_url || '/assets/poster_placeholder.jpg'"
-            [alt]="item.pelicula.title"
-          />
-          <div class="carrito-item-info">
-            <h3>{{ item.pelicula.title }}</h3>
-            <p>{{ item.formato }} &middot; {{ item.horario }}</p>
-            <p>Butacas: {{ item.butacas.join(', ') }}</p>
-          </div>
+          @if (item.tipo === 'entrada') {
+            <img
+              [src]="item.pelicula.image_url || '/assets/poster_placeholder.jpg'"
+              [alt]="item.pelicula.title"
+            />
+            <div class="carrito-item-info">
+              <h3>{{ item.pelicula.title }}</h3>
+              <p>{{ item.formato }} - {{ item.horario }}</p>
+              <p>Butacas: {{ item.butacas.join(', ') }}</p>
+              <p>$ {{ item.butacas.length * precioEntrada() }}</p>
+            </div>
+          } @else {
+            @if (item.producto.image_url) {
+              <img [src]="item.producto.image_url" [alt]="item.producto.name" />
+            } @else {
+              <span class="material-symbols-outlined sin-imagen">hide_image</span>
+            }
+            <div class="carrito-item-info">
+              <h3>{{ item.producto.name }}</h3>
+              <p>Cantidad: {{ item.cantidad }}</p>
+              <p>$ {{ item.cantidad * item.producto.price }}</p>
+            </div>
+          }
           <button type="button" class="eliminar-btn" (click)="eliminar($index)">
             Eliminar
           </button>
@@ -35,7 +49,21 @@
     </div>
 
     <div class="comprar-todo">
-      <app-button bg="black" (click)="comprarCarrito()">
+      <div class="cupon">
+        <app-input name="cupon" placeholder="Código de cupón" [(ngModel)]="codigoCupon" />
+        <app-button bg="black" (click)="agregarCupon()">Agregar cupón</app-button>
+      </div>
+      @if (mensajeCupon(); as mensaje) {
+        <p>{{ mensaje }}</p>
+      }
+      <p>
+        Total:
+        @if (cupon()) {
+          <s>$ {{ subtotal() }}</s>
+        }
+        $ {{ total() }}
+      </p>
+      <app-button bg="black" [disabled]="!entrada()" (click)="comprarCarrito()">
         {{ comprando() ? 'Comprando...' : 'Comprar' }}
       </app-button>
     </div>

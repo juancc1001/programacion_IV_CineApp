@@ -14,6 +14,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     },
   ],
 })
+
+//la clase controlValueAccessor contiene los metodos de formcontrol
 export class InputComponent implements ControlValueAccessor {
   @Input() placeholder = '';
   @Input() borderColor = 'primary';
@@ -21,6 +23,7 @@ export class InputComponent implements ControlValueAccessor {
 
   value = '';
   disabled = false;
+  showPassword = false;
 
   private onChange: (value: string) => void = () => {};
   private onTouched: () => void = () => {};

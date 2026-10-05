@@ -34,6 +34,36 @@ export class PeliculasService {
     return data;
   }
 
+  // cuenta las butacas reservadas por pelicula
+  async getPeliculasMasVistas(cantidad: number): Promise<Pelicula[]> {
+    const { data, error } = await this.supabase
+      .from('booking_seats')
+      .select('bookings(showtimes(movies(*)))');
+
+    if (error) {
+      console.error('Error loading peliculas mas vistas:', error);
+      return [];
+    }
+
+    const conteo = new Map<number, { pelicula: Pelicula; vistas: number }>();
+
+    for (const butaca of data) {
+      const pelicula = butaca.bookings?.showtimes?.movies;
+      if (!pelicula) {
+        continue;
+      }
+
+      const item = conteo.get(pelicula.id) ?? { pelicula, vistas: 0 };
+      item.vistas++;
+      conteo.set(pelicula.id, item);
+    }
+
+    return [...conteo.values()]
+      .sort((a, b) => b.vistas - a.vistas)
+      .slice(0, cantidad)
+      .map((item) => item.pelicula);
+  }
+
   async getPelicula(id: number): Promise<Pelicula | null> {
     const { data, error } = await this.supabase.from('movies').select('*').eq('id', id).single();
 

@@ -2,6 +2,6 @@
 <router-outlet></router-outlet>
 @if (modalService.activeModal(); as modal) {
   <!-- ngComponentOulet es una directiva que inserta otro 
-   componente en el container y activeModal es una directiva gg ez -->
+   componente en el container y activeModal es una signal gg ez -->
   <ng-container *ngComponentOutlet="modal"></ng-container>
 }

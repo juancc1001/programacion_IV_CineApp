@@ -14,3 +14,23 @@
 .input:focus {
 	outline: none;
 }
+
+.input-wrapper {
+	position: relative;
+}
+
+.toggle-password {
+	position: absolute;
+	top: 50%;
+	right: 0.5rem;
+	transform: translateY(-50%);
+	display: flex;
+	background: none;
+	border: none;
+	padding: 0;
+	color: var(--color-text);
+}
+
+.input-password {
+	padding-right: 2.5rem;
+}

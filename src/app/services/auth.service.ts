@@ -1,5 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { SupabaseService } from './supabase.service';
+import { VoucherService } from './voucher.service';
 import { Roles } from '../../types/roles';
 import type { Tables, TablesInsert } from '../../types/supabase';
 
@@ -8,6 +9,7 @@ import type { Tables, TablesInsert } from '../../types/supabase';
 })
 export class AuthService {
   private readonly supabase = inject(SupabaseService).supabase;
+  private readonly voucherService = inject(VoucherService);
   readonly userInformation = signal<Tables<'user_information'> | null>(null);
   private cachedUserInformation?: Promise<Tables<'user_information'> | null>;
 
@@ -36,6 +38,12 @@ export class AuthService {
     if (informationError) {
       console.error('Error saving user information:', informationError);
     }
+
+    await this.voucherService.createVoucher({
+      code: 'WELCOME',
+      discount_percentage: 20,
+      user_id: data.user.id,
+    });
 
     return { data, error: informationError };
   }
@@ -79,6 +87,17 @@ export class AuthService {
     }
 
     this.userInformation.set(data);
+
+    return data;
+  }
+
+  async getUsers(): Promise<Tables<'user_information'>[]> {
+    const { data, error } = await this.supabase.from('user_information').select('*');
+
+    if (error) {
+      console.error('Error loading users:', error);
+      return [];
+    }
 
     return data;
   }

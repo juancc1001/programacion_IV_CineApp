@@ -124,3 +124,6 @@ ng build
 ```bash
 ng test
 ```
+
+# Requisitos funcionales:
+

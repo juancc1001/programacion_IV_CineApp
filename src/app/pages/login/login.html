@@ -1,34 +1,15 @@
 <div class="login-backdrop" (click)="close()">
     <div class="login-container" (click)="$event.stopPropagation()">
         <button type="button" class="close-btn" (click)="close()">&times;</button>
-        <h2 style="font-weight: bold;">{{ isRegister ? 'REGISTRO' : 'LOGIN' }}</h2>
-        <p>{{ isRegister ? 'Complete sus datos para crear una cuenta' : 'Ingrese su información para iniciar sesión' }}</p>
+        <h2 style="font-weight: bold;">LOGIN</h2>
+        <p>Ingrese su información para iniciar sesión</p>
         <form class="form" (ngSubmit)="onSubmit()">
-            <app-input placeholder="Email" type="email" [(ngModel)]="email" name="email" />
-            <app-input placeholder="Contraseña" type="password" [(ngModel)]="password" name="password" />
-            @if (isRegister) {
-                <app-input placeholder="Nombre" [(ngModel)]="name" name="name" />
-                <app-input placeholder="Apellido" [(ngModel)]="surname" name="surname" />
-                <label>Fecha de nacimiento:</label>
-                <app-input type="date" [(ngModel)]="birthdate" name="birthdate" />
-                <select class="select" [(ngModel)]="bloodType" name="blood_type">
-                    <option [ngValue]="null">Grupo sanguíneo</option>
-                    @for (grupo of gruposSanguineos; track grupo.value) {
-                        <option [ngValue]="grupo.value">{{ grupo.label }}</option>
-                    }
-                </select>
-                <select class="select" [(ngModel)]="eyesColor" name="eyes_color">
-                    <option [ngValue]="null">Color de ojos</option>
-                    @for (color of coloresOjos; track color.value) {
-                        <option [ngValue]="color.value">{{ color.label }}</option>
-                    }
-                </select>
-                <app-input placeholder="Días de vacaciones" type="number" [(ngModel)]="vacationDays" name="vacation_days" />
-            }
-            <app-button type="submit">{{ isRegister ? 'REGISTRARSE' : 'INGRESAR' }}</app-button>
+            <app-input placeholder="Email" type="email" [formControl]="email" />
+            <app-input placeholder="Contraseña" type="password" [formControl]="password" name="password" />
+            <app-button type="submit">INGRESAR</app-button>
         </form>
         <button type="button" class="toggle-btn" (click)="toggleMode()">
-            {{ isRegister ? '¿Ya tenés cuenta? Iniciá sesión' : 'Ingresa con otro usuario' }}
+            ¿No tenés cuenta? Registrate
         </button>
     </div>
 </div>

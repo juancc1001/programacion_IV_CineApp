@@ -1,3 +1,3 @@
-<button class="button" [type]="type" [style.background-color]="backgroundColor">
+<button class="button" [type]="type" [style.background-color]="disabled ? 'var(--color-grey)' : backgroundColor" [disabled]="disabled">
 	<ng-content />
 </button>

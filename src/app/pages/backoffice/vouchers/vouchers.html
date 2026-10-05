@@ -1,0 +1,73 @@
+<div class="crud-view">
+  <h2>Vouchers</h2>
+  <div class="crud-page">
+    <div class="crud-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Número</th>
+            <th>Código</th>
+            <th>Descuento (%)</th>
+            <th>Descuento máximo</th>
+            <th>Usuario</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (voucher of vouchers(); track voucher.id) {
+            <tr>
+              <td>{{ voucher.id }}</td>
+              <td>{{ voucher.code }}</td>
+              <td>{{ voucher.discount_percentage }}</td>
+              <td>{{ voucher.max_discount }}</td>
+              <td>{{ usuarioLabel(voucher.user_id) }}</td>
+              <td>
+                <button type="button" style="background: none; border: none; cursor: pointer" (click)="editVoucher(voucher)">
+                  <span class="material-symbols-outlined">edit</span>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <!-- agrega la clase "abierto" dependiendo de showForm (true/false) -->
+    <div class="crud-form-panel" [class.abierto]="showForm">
+      <button type="button" class="crud-form-tab" (click)="toggleForm()">
+        <span class="material-symbols-outlined">add</span>
+        AGREGAR NUEVO VOUCHER
+      </button>
+      <div class="crud-form-container">
+        <form class="crud-form">
+          <label>Código:</label>
+          <input name="code" placeholder="Código" [(ngModel)]="newVoucher.code" />
+          <label>Descuento (%):</label>
+          <input
+            name="discount_percentage"
+            type="number"
+            placeholder="Descuento (%)"
+            [(ngModel)]="newVoucher.discount_percentage"
+          />
+          <label>Descuento máximo:</label>
+          <input
+            name="max_discount"
+            type="number"
+            placeholder="Descuento máximo"
+            [(ngModel)]="newVoucher.max_discount"
+          />
+          <label>Usuario:</label>
+          <app-multiselect
+            name="usuario"
+            placeholder="Usuario"
+            [options]="usuarioOptions()"
+            [ngModel]="usuario"
+            (ngModelChange)="selectUsuario($event)"
+          />
+          <app-button style="margin: 10px 0px" type="submit" (click)="saveVoucher()">
+            {{ editingId === null ? 'Agregar' : 'Guardar' }}
+          </app-button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

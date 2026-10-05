@@ -1,7 +1,7 @@
 <div class="navbar">
     <img src="/assets/logo.png" alt="Logo" class="logo" height="35px" style="margin: auto 0" />
-    <a href="#">CARTELERA</a>
-    <a href="#">CANDY</a>
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">CARTELERA</a>
+    <a routerLink="/candy" routerLinkActive="active">CANDY</a>
     <!-- routerLinkActive es una directiva de Angular, agrega la clase que se le pasa -->
     <a routerLink="/backoffice" routerLinkActive="active" *isAdmin>ADMIN</a>
     <a routerLink="/carrito" routerLinkActive="active"><span class="material-symbols-outlined">shopping_cart</span></a>

@@ -1,14 +1,15 @@
 import { Component, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { ModalService } from '../../services/modal.service';
 import { InputComponent } from '../../ui/input/input';
 import { Button } from '../../ui/button/button';
 import { GrupoSanguineoLabel } from '../../../types/grupo-sanguineo';
 import { ColorOjosLabel } from '../../../types/color-ojos';
+import { Register } from '../register/register';
 
 @Component({
-  imports: [FormsModule, InputComponent, Button],
+  imports: [FormsModule, ReactiveFormsModule, InputComponent, Button],
   selector: 'app-login',
   styleUrl: './login.scss',
   templateUrl: './login.html',
@@ -16,6 +17,7 @@ import { ColorOjosLabel } from '../../../types/color-ojos';
 export class Login {
   private readonly authService = inject(AuthService);
   private readonly modalService = inject(ModalService);
+  private readonly registerModal = Register;
 
   gruposSanguineos = Object.entries(GrupoSanguineoLabel).map(([value, placeholder]) => ({
     value: Number(value),
@@ -26,31 +28,17 @@ export class Login {
     label: placeholder,
   }));
 
-  email = '';
-  password = '';
-  isRegister = false;
-  name = '';
-  surname = '';
-  birthdate = '';
-  bloodType: number | null = null;
-  eyesColor: number | null = null;
-  vacationDays = '';
-
+  email = new FormControl('', { nonNullable: true, validators: Validators.email });
+  password = new FormControl('', { nonNullable: true, validators: Validators.required });
+  
   toggleMode(): void {
-    this.isRegister = !this.isRegister;
+    this.changeModalToRegister();
   }
 
   onSubmit(): void {
-    const request = this.isRegister
-      ? this.authService.signUp(this.email, this.password, {
-          name: this.name || null,
-          surname: this.surname || null,
-          birthdate: this.birthdate || null,
-          blood_type: this.bloodType,
-          eyes_color: this.eyesColor,
-          vacation_days: this.vacationDays === '' ? null : Number(this.vacationDays),
-        })
-      : this.authService.signIn(this.email, this.password);
+    if (this.email.invalid) return;
+
+    const request = this.authService.signIn(this.email.value, this.password.value);
 
     request.then(() => this.close());
   }
@@ -58,4 +46,10 @@ export class Login {
   close(): void {
     this.modalService.close();
   }
+
+  changeModalToRegister(): void {
+      this.modalService.close();
+      this.modalService.open(this.registerModal);    
+  }
+
 }

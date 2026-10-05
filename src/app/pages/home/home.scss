@@ -116,14 +116,24 @@
   }
 
   .cartelera-info {
+    flex: 1;
     padding: 10px 10px 10px 0;
 
     h3 {
       margin: 0 0 10px;
     }
 
+    .cartelera-titulo {
+      display: flex;
+      justify-content: space-between;
+    }
+
     p {
       margin: 0 0 6px;
+    }
+
+    a {
+      text-decoration: underline;
     }
   }
 }

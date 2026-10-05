@@ -1,0 +1,10 @@
+<input
+	class="input"
+	type="text"
+	inputmode="numeric"
+	[placeholder]="placeholder"
+	[value]="texto"
+	[disabled]="disabled"
+	(input)="onInput($any($event.target))"
+	(blur)="onBlur()"
+/>

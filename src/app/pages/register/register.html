@@ -1,0 +1,33 @@
+<div class="login-backdrop" (click)="close()">
+    <div class="login-container" (click)="$event.stopPropagation()">
+        <button type="button" class="close-btn" (click)="close()">&times;</button>
+        <h2 style="font-weight: bold;">REGISTRO</h2>
+        <p>Complete sus datos para crear una cuenta</p>
+        <form class="form" (ngSubmit)="onSubmit()">
+            <app-input placeholder="Email" type="email" [formControl]="email" name="email" />
+            <app-input placeholder="Contraseña" type="password" [formControl]="password" name="password" />
+            <app-input placeholder="Repetir Contraseña" type="password" [formControl]="confirmPassword" name="confirm_password" />
+            <app-input placeholder="Nombre" [formControl]="name" name="name" />
+            <app-input placeholder="Apellido" [formControl]="surname" name="surname" />
+            <label>Fecha de nacimiento:</label>
+            <app-fecha-input [formControl]="birthdate" name="birthdate" />
+            <select class="select" [formControl]="bloodType" name="blood_type">
+                <option [ngValue]="null">Grupo sanguíneo</option>
+                @for (grupo of gruposSanguineos; track grupo.value) {
+                    <option [ngValue]="grupo.value">{{ grupo.label }}</option>
+                }
+            </select>
+            <select class="select" [formControl]="eyesColor" name="eyes_color">
+                <option [ngValue]="null">Color de ojos</option>
+                @for (color of coloresOjos; track color.value) {
+                    <option [ngValue]="color.value">{{ color.label }}</option>
+                }
+            </select>
+            <app-input placeholder="Días de vacaciones" type="number" [formControl]="vacationDays" name="vacation_days" />
+            <app-button type="submit">REGISTRARSE</app-button>
+        </form>
+        <button type="button" class="toggle-btn" (click)="toggleMode()">
+            ¿Ya tenés cuenta? Iniciá sesión
+        </button>
+    </div>
+</div>

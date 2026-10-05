@@ -1,0 +1,42 @@
+@if (pelicula(); as pelicula) {
+  <article class="cartelera-card">
+    <img [src]="pelicula.image_url || '/assets/poster_placeholder.jpg'" [alt]="pelicula.title" />
+    <div class="cartelera-info">
+      <h3>{{ pelicula.title }}</h3>
+      <p>{{ pelicula.duration }} min &middot; {{ pelicula.genres }}</p>
+      <p>{{ pelicula.available_formats }}</p>
+      <p>{{ pelicula.sinopsis }}</p>
+      @if (reviews().length) {
+        <p>★ {{ promedio | number: '1.1-1' }}</p>
+      }
+    </div>
+  </article>
+}
+
+<div class="reviews">
+  @if (userInformation()) {
+    <form class="review-form" (ngSubmit)="enviarReview()">
+      <div class="estrellas">
+        @for (estrella of estrellas; track estrella) {
+          <button type="button" class="estrella" (click)="score.set(estrella)">
+            {{ estrella <= score() ? '★' : '☆' }}
+          </button>
+        }
+      </div>
+      <div class="review-input">
+        <textarea [(ngModel)]="comment" name="comment" placeholder="Escribí tu reseña..."></textarea>
+        <app-button type="submit" [disabled]="!score() || !comment.trim()">PUBLICAR</app-button>
+      </div>
+    </form>
+  }
+
+  @for (review of reviews(); track review.id) {
+    <article class="review">
+      <strong>{{ review.nombre }}</strong>
+      <span class="estrellas-review">{{ '★'.repeat(review.score) }}{{ '☆'.repeat(5 - review.score) }}</span>
+      <p>{{ review.comment }}</p>
+    </article>
+  } @empty {
+    <p>Aún no hay reseñas para esta película</p>
+  }
+</div>

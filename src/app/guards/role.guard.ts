@@ -8,9 +8,6 @@ export function roleGuard(role: Roles): CanActivateFn {
     const authService = inject(AuthService);
     const information = await authService.getUserInformation();
     
-    
-    //return information?.role === role;
-    //para testing porque no hay sesion guardada todavía
-    return true;
+    return information?.role === role;
   };
 }

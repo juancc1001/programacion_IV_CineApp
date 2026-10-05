@@ -34,6 +34,24 @@ export class ProductosService {
     return data;
   }
 
+  async uploadImage(file: File): Promise<string | null> {
+    const fileName = `${Date.now()}_${file.name}`;
+    const { error } = await this.supabase.storage
+      .from('imagenes')
+      .upload(fileName, file);
+
+    if (error) {
+      console.error('Error uploading image:', error);
+      return null;
+    }
+
+    const { data } = this.supabase.storage
+      .from('imagenes')
+      .getPublicUrl(fileName);
+
+    return data.publicUrl;
+  }
+
   async createProducto(producto: TablesInsert<'products'>) {
     const { data, error } = await this.supabase
       .from('products')

@@ -8,6 +8,7 @@
             <th>Número</th>
             <th>Nombre</th>
             <th>Piso</th>
+            <th>Formatos</th>
           </tr>
         </thead>
         <tbody>
@@ -16,6 +17,7 @@
               <td>{{ sala.id }}</td>
               <td>{{ sala.name }}</td>
               <td>{{ sala.floor }}</td>
+              <td>{{ sala.formats }}</td>
             </tr>
           }
         </tbody>
@@ -38,6 +40,12 @@
             <option value="3">3</option>
             <option value="4">4</option>
           </select>
+          <app-multiselect
+            name="formats"
+            placeholder="Formatos"
+            [options]="formatosPelicula()"
+            [(ngModel)]="newSala.formats"
+          />
           <app-button style="margin: 10px 0px" type="submit" (click)="addSala()"
             >Agregar</app-button
           >

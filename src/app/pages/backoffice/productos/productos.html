@@ -9,6 +9,7 @@
             <th>Nombre</th>
             <th>Precio</th>
             <th>Stock</th>
+            <th>Imagen</th>
           </tr>
         </thead>
         <tbody>
@@ -18,6 +19,11 @@
               <td>{{ producto.name }}</td>
               <td>{{ producto.price }}</td>
               <td>{{ producto.stock }}</td>
+              <td>
+                @if (producto.image_url) {
+                  <img [src]="producto.image_url" alt="producto" style="height: 60px" />
+                }
+              </td>
             </tr>
           }
         </tbody>
@@ -37,6 +43,8 @@
           <input name="price" type="number" placeholder="Precio" [(ngModel)]="newProducto.price" />
           <label>Stock:</label>
           <input name="stock" type="number" placeholder="Stock" [(ngModel)]="newProducto.stock" />
+          <label>Imagen:</label>
+          <input type="file" accept="image/*" (change)="onFileSelected($event)" />
           <app-button style="margin: 10px 0px" type="submit" (click)="addProducto()"
             >Agregar</app-button
           >

@@ -17,6 +17,7 @@ export class IsAdmin {
       this.viewContainerRef.clear();
 
       if (isAdmin) {
+        //de dominio agrega al container el contenido de templateRef, que es el tag donde está
         this.viewContainerRef.createEmbeddedView(this.templateRef);
       }
     });

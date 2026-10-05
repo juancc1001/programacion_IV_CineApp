@@ -11,6 +11,7 @@
             <th>Géneros</th>
             <th>Idiomas</th>
             <th>Formatos</th>
+            <th>Restricción de Edad</th>
             <th>Sinopsis</th>
             <th>Imagen</th>
           </tr>
@@ -24,6 +25,7 @@
               <td>{{ pelicula.genres }}</td>
               <td>{{ pelicula.languages }}</td>
               <td>{{ pelicula.available_formats }}</td>
+              <td>{{ pelicula.age_restriction }}</td>
               <td>{{ pelicula.sinopsis }}</td>
               <td>
                 @if (pelicula.image_url) {
@@ -68,6 +70,12 @@
             [options]="formatosPelicula()"
             [(ngModel)]="newPelicula.available_formats"
           />
+          <label>Restricción de Edad:</label>
+          <input
+            name="age_restriction"
+            type="number"
+            placeholder="Restricción de Edad"
+            [(ngModel)]="newPelicula.age_restriction">
           <label>Sinopsis:</label>
           <input name="sinopsis" placeholder="Sinopsis" [(ngModel)]="newPelicula.sinopsis" />
           <label>Imagen:</label>

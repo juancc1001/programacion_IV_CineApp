@@ -1,6 +1,17 @@
 <div class="crud-view">
   <h2>Funciones</h2>
-  //TODO: convertir esta vista en calendario
+  <div class="filtros">
+    @for (sala of salas(); track sala.id) {
+      <button
+        type="button"
+        class="filtro-chip"
+        [class.activo]="salaFiltro() === sala.id"
+        (click)="toggleSalaFiltro(sala.id)"
+      >
+        {{ sala.name }}
+      </button>
+    }
+  </div>
   <div class="crud-page">
     <div class="crud-container">
       <table>
@@ -12,19 +23,21 @@
             <th>Formato</th>
             <th>Idioma</th>
             <th>Hora</th>
+            <th>Hora Fin</th>
             <th>Desde</th>
             <th>Hasta</th>
           </tr>
         </thead>
         <tbody>
-          @for (funcion of funciones(); track funcion.id) {
+          @for (funcion of funcionesFiltradas(); track funcion.id) {
             <tr>
               <td>{{ funcion.id }}</td>
-              <td>{{ funcion.movie_id }}</td>
+              <td>{{ nombrePelicula(funcion) }}</td>
               <td>{{ funcion.room_id }}</td>
               <td>{{ funcion.format }}</td>
               <td>{{ funcion.language }}</td>
               <td>{{ funcion.start_time }}</td>
+              <td>{{ horaFin(funcion) }}</td>
               <td>{{ funcion.from }}</td>
               <td>{{ funcion.to }}</td>
             </tr>
@@ -46,16 +59,16 @@
               <option [ngValue]="pelicula.id">{{ pelicula.title }}</option>
             }
           </select>
-          <label>Sala:</label>
-          <select name="room_id" [(ngModel)]="newFuncion.room_id">
-            @for (sala of salas(); track sala.id) {
-              <option [ngValue]="sala.id">{{ sala.name }}</option>
-            }
-          </select>
           <label>Formato:</label>
-          <select name="format" [(ngModel)]="newFuncion.format">
+          <select name="format" [(ngModel)]="newFuncion.format" (ngModelChange)="onFormatoChange()">
             @for (formato of formatosDisponibles(); track formato) {
               <option [ngValue]="formato">{{ formato }}</option>
+            }
+          </select>
+          <label>Sala:</label>
+          <select name="room_id" [(ngModel)]="newFuncion.room_id">
+            @for (sala of salasDisponibles(); track sala.id) {
+              <option [ngValue]="sala.id">{{ sala.name }}</option>
             }
           </select>
           <label>Idioma:</label>
@@ -65,11 +78,11 @@
             }
           </select>
           <label>Hora:</label>
-          <input name="start_time" type="time" [(ngModel)]="newFuncion.start_time" />
+          <app-fecha-input tipo="hora" name="start_time" [(ngModel)]="newFuncion.start_time" />
           <label>Desde:</label>
-          <input name="from" type="date" [(ngModel)]="newFuncion.from" />
+          <app-fecha-input name="from" [(ngModel)]="newFuncion.from" />
           <label>Hasta:</label>
-          <input name="to" type="date" [(ngModel)]="newFuncion.to" />
+          <app-fecha-input name="to" [(ngModel)]="newFuncion.to" />
           @if (error) {
             <p class="form-error">{{ error }}</p>
           }

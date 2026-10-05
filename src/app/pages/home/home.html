@@ -46,12 +46,21 @@
             [alt]="enCartelera.pelicula.title"
           />
           <div class="cartelera-info">
-            <h3>{{ enCartelera.pelicula.title }}</h3>
+            <h3 class="cartelera-titulo">
+              {{ enCartelera.pelicula.title }}
+              @if (promedios().get(enCartelera.pelicula.id); as promedio) {
+                <span>★ {{ promedio | number: '1.1-1' }}</span> <!--un pipe! -->
+              }
+            </h3>
             <p>
               {{ enCartelera.pelicula.duration }} min &middot; {{ enCartelera.pelicula.genres }}
             </p>
             <p>{{ enCartelera.pelicula.available_formats }}</p>
             <p class="movie-sinopsis">{{ enCartelera.pelicula.sinopsis }}</p>
+            <a [routerLink]="['/pelicula', enCartelera.pelicula.id]">Ver reseñas y comentarios</a>
+            @if (enCartelera.pelicula.age_restriction) {
+              <p>⚠️ La película es apta para mayores de {{ enCartelera.pelicula.age_restriction }}</p>
+            }
             <div class="cartelera-acciones">
               <div class="cartelera-horarios">
                 @for (horario of enCartelera.horarios; track horario) {

@@ -9,9 +9,12 @@ import { Button } from '../../ui/button/button';
 import { InputComponent } from '../../ui/input/input';
 import { ModalService } from '../../services/modal.service';
 import { CompraEntradasModal } from '../compra-entradas-modal/compra-entradas-modal';
+import { ReviewsService } from '../../services/reviews.service';
+import { RouterLink } from '@angular/router';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
-  imports: [Button, FormsModule, InputComponent],
+  imports: [Button, FormsModule, InputComponent, RouterLink, DecimalPipe],
   selector: 'app-home',
   styleUrl: './home.scss',
   templateUrl: './home.html',
@@ -22,6 +25,7 @@ export class Home {
   private readonly funcionesService = inject(FuncionesService);
   private readonly carritoService = inject(CarritoService);
   private readonly modalService = inject(ModalService);
+  private readonly reviewsService = inject(ReviewsService);
 
   readonly userInformation = this.authService.userInformation;
   destacadas = signal<Pelicula[]>([]);
@@ -31,6 +35,7 @@ export class Home {
   cartelera = signal<PeliculaEnCartelera[]>([]);
   carteleraFiltrada = signal<PeliculaEnCartelera[]>([]);
   busqueda = '';
+  promedios = signal(new Map<number, number>());
 
   filtrarCartelera() {
     const termino = this.busqueda.toLowerCase().trim();
@@ -50,10 +55,15 @@ export class Home {
   constructor() {
     this.loadPeliculasDestacadas();
     this.loadCartelera();
+    this.loadPromedios();
+  }
+
+  async loadPromedios() {
+    this.promedios.set(await this.reviewsService.getPromedios());
   }
 
   async loadPeliculasDestacadas() {
-    this.destacadas.set(await this.moviesService.getPeliculasDestacadas(4));
+    this.destacadas.set(await this.moviesService.getPeliculasMasVistas(3));
   }
 
   // una card por pelicula, con todos los horarios de ese dia

@@ -8,7 +8,7 @@
   --color-secondary: #fb6f92;
   --color-danger: #c1121f;
   --color-success: #a7c957;
-  --color-grey: #9db6ce60;
+  --color-grey: #9db6ce;
 }
 
 *, *::before, *::after {
@@ -42,6 +42,29 @@ a {
     padding: 10px 1rem;
     background: black;
     color: white;
+  }
+}
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 20px 1rem 0 1rem;
+}
+
+.filtro-chip {
+  border: 0;
+  border-radius: 5px;
+  background: var(--color-grey);
+  color: var(--color-text);
+  cursor: pointer;
+  font: inherit;
+  padding: 0.625rem 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+
+  &.activo {
+    background: var(--color-primary);
+    color: var(--color-bg);
   }
 }
 
@@ -102,7 +125,7 @@ a {
 .crud-form-container {
   width: 0;
   gap: 20px;
-  overflow: hidden;
+  overflow-x: clip;
   padding: 0;
   border: none;
   transition: width 0.2s ease, padding 0.2s ease;
@@ -131,7 +154,8 @@ a {
       }
     }
 
-    app-multiselect {
+    app-multiselect,
+    app-fecha-input {
       display: block;
       margin: 10px 0;
     }

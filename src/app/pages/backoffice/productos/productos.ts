@@ -18,6 +18,7 @@ export class Productos {
     price: 0,
     stock: 0,
   };
+  selectedFile: File | null = null;
   showForm = false;
 
   constructor() {
@@ -32,9 +33,20 @@ export class Productos {
     this.productos.set(await this.productosService.getProductos());
   }
 
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.selectedFile = input.files?.[0] ?? null;
+  }
+
   async addProducto() {
-    await this.productosService.createProducto(this.newProducto);
+    let imageUrl: string | null = null;
+    if (this.selectedFile) {
+      imageUrl = await this.productosService.uploadImage(this.selectedFile);
+    }
+
+    await this.productosService.createProducto({ ...this.newProducto, image_url: imageUrl });
     this.newProducto = { name: '', price: 0, stock: 0 };
+    this.selectedFile = null;
     await this.loadProductos();
   }
 }

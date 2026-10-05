@@ -1,0 +1,6 @@
+<div class="candy-modal-backdrop" (click)="close()">
+  <div class="candy-modal-container" (click)="$event.stopPropagation()">
+    <app-button (click)="irAPagar()">Ir a pagar</app-button>
+    <app-button bg="secondary" (click)="close()">Seguir comprando</app-button>
+  </div>
+</div>

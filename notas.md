@@ -11,3 +11,6 @@ sistema de reseñas/puntaje en la home
 comentarios en peliculas con el puntaje
 crud cupones - 20% primera compra
 agregar limite de edad a las peliculas
+Input contraseña y repetir contraseña
+Agregar sala por tipo
+Mejorar error sala (ocupada hasta x hora)

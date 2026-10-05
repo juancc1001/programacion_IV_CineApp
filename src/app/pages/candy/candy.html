@@ -1,0 +1,25 @@
+<div class="candy-container">
+  <h2>Candy</h2>
+  <p>Agregá productos a tu reserva o <a routerLink="/carrito" style="text-decoration: underline;">continuá a la compra</a></p>
+  <div class="candy-grid">
+    @for (producto of productos(); track producto.id) {
+      <div class="producto-card">
+        @if (producto.image_url) {
+          <img [src]="producto.image_url" [alt]="producto.name" />
+        } @else {
+          <span class="material-symbols-outlined sin-imagen">hide_image</span>
+        }
+        <h3>{{ producto.name }}</h3>
+        <p>$ {{ producto.price }}</p>
+        <div class="selector">
+          <button type="button" [disabled]="cantidad(producto) === 0" (click)="restar(producto)">-</button>
+          <span>{{ cantidad(producto) }}</span>
+          <button type="button" [disabled]="cantidad(producto) >= max(producto)" (click)="sumar(producto)">
+            +
+          </button>
+        </div>
+        <app-button bg="black" [disabled]="cantidad(producto) === 0" (click)="comprar(producto)">Comprar</app-button>
+      </div>
+    }
+  </div>
+</div>

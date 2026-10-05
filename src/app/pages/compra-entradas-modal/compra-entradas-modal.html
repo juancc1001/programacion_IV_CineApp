@@ -32,6 +32,9 @@
             Agregar al carrito
           </app-button>
         </div>
+        @if (error(); as error) {
+          <p>{{ error }}</p>
+        }
       }
     }
   </div>

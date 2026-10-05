@@ -94,18 +94,21 @@ export type Database = {
           id: number
           showtime_id: number
           user_id: string | null
+          voucher_id: number | null
         }
         Insert: {
           created_at?: string
           id?: number
           showtime_id: number
           user_id?: string | null
+          voucher_id?: number | null
         }
         Update: {
           created_at?: string
           id?: number
           showtime_id?: number
-          user_id?: string
+          user_id?: string | null
+          voucher_id?: number | null
         }
         Relationships: [
           {
@@ -115,10 +118,18 @@ export type Database = {
             referencedRelation: "showtimes"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "bookings_voucher_id_fkey"
+            columns: ["voucher_id"]
+            isOneToOne: false
+            referencedRelation: "voucher"
+            referencedColumns: ["id"]
+          },
         ]
       }
       movies: {
         Row: {
+          age_restriction: number | null
           available_formats: string | null
           created_at: string
           duration: number | null
@@ -131,6 +142,7 @@ export type Database = {
           title: string
         }
         Insert: {
+          age_restriction?: number | null
           available_formats?: string | null
           created_at?: string
           duration?: number | null
@@ -143,6 +155,7 @@ export type Database = {
           title: string
         }
         Update: {
+          age_restriction?: number | null
           available_formats?: string | null
           created_at?: string
           duration?: number | null
@@ -156,10 +169,32 @@ export type Database = {
         }
         Relationships: []
       }
+      prices: {
+        Row: {
+          created_at: string
+          id: number
+          label: string
+          price: number
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          label: string
+          price: number
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          label?: string
+          price?: number
+        }
+        Relationships: []
+      }
       products: {
         Row: {
           created_at: string
           id: number
+          image_url: string | null
           name: string
           price: number
           stock: number | null
@@ -167,6 +202,7 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: number
+          image_url?: string | null
           name?: string
           price?: number
           stock?: number | null
@@ -174,28 +210,67 @@ export type Database = {
         Update: {
           created_at?: string
           id?: number
+          image_url?: string | null
           name?: string
           price?: number
           stock?: number | null
         }
         Relationships: []
       }
+      reviews: {
+        Row: {
+          comment: string
+          created_at: string
+          id: number
+          movie_id: number
+          score: number
+          user_id: string
+        }
+        Insert: {
+          comment: string
+          created_at?: string
+          id?: never
+          movie_id: number
+          score: number
+          user_id?: string
+        }
+        Update: {
+          comment?: string
+          created_at?: string
+          id?: never
+          movie_id?: number
+          score?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_movie_id_fkey"
+            columns: ["movie_id"]
+            isOneToOne: false
+            referencedRelation: "movies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       rooms: {
         Row: {
           created_at: string
           floor: number | null
+          formats: string
           id: number
           name: string | null
         }
         Insert: {
           created_at?: string
           floor?: number | null
+          formats?: string
           id?: number
           name?: string | null
         }
         Update: {
           created_at?: string
           floor?: number | null
+          formats?: string
           id?: number
           name?: string | null
         }
@@ -295,23 +370,26 @@ export type Database = {
         Row: {
           code: string | null
           created_at: string
-          "discount_ percentage": number
+          discount_percentage: number
           id: number
           max_discount: number | null
+          user_id: string | null
         }
         Insert: {
           code?: string | null
           created_at?: string
-          "discount_ percentage": number
+          discount_percentage: number
           id?: number
           max_discount?: number | null
+          user_id?: string | null
         }
         Update: {
           code?: string | null
           created_at?: string
-          "discount_ percentage"?: number
+          discount_percentage?: number
           id?: number
           max_discount?: number | null
+          user_id?: string | null
         }
         Relationships: []
       }
