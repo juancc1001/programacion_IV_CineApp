@@ -24,6 +24,9 @@
                 }
             </select>
             <app-input placeholder="Días de vacaciones" type="number" [formControl]="vacationDays" name="vacation_days" />
+            @if (error()) {
+                <p class="error">{{ error() }}</p>
+            }
             <app-button type="submit">REGISTRARSE</app-button>
         </form>
         <button type="button" class="toggle-btn" (click)="toggleMode()">

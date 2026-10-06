@@ -6,7 +6,7 @@
   border-bottom: 2px solid var(--color-secondary);
   margin-bottom: 1px;
   box-shadow: 0 2px 0 0 black;
-  background-color: var(--color-primary);
+  background-color: #3967cc;
 }
 
 .movie-card {
@@ -107,6 +107,7 @@
   border-radius: 2px;
   background: white;
   margin: 30px auto 0px auto;
+  min-width: 70%;
   max-width: 70%;
   img {
     flex: 0 0 170px;

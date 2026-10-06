@@ -329,7 +329,7 @@ export type Database = {
       }
       user_information: {
         Row: {
-          birthdate: string | null
+          birthdate: string
           blood_type: number | null
           created_at: string
           eyes_color: number | null
@@ -341,7 +341,7 @@ export type Database = {
           vacation_days: number | null
         }
         Insert: {
-          birthdate?: string | null
+          birthdate: string
           blood_type?: number | null
           created_at?: string
           eyes_color?: number | null
@@ -353,7 +353,7 @@ export type Database = {
           vacation_days?: number | null
         }
         Update: {
-          birthdate?: string | null
+          birthdate?: string
           blood_type?: number | null
           created_at?: string
           eyes_color?: number | null

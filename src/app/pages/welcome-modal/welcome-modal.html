@@ -1,0 +1,7 @@
+<div class="welcome-modal-backdrop" (click)="close()">
+  <div class="welcome-modal-container" (click)="$event.stopPropagation()">
+    <h2>Bienvenido a nuestro cine!</h2>
+    <p>Con el código <strong>WELCOME</strong> accedé a {{ discount() }}% de descuento en tu primera compra</p>
+    <app-button (click)="close()" bg="primary">Aceptar</app-button>
+  </div>
+</div>

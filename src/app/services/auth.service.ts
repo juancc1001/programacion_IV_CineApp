@@ -39,11 +39,8 @@ export class AuthService {
       console.error('Error saving user information:', informationError);
     }
 
-    await this.voucherService.createVoucher({
-      code: 'WELCOME',
-      discount_percentage: 20,
-      user_id: data.user.id,
-    });
+    this.cachedUserInformation = this.fetchUserInformation();
+    await this.cachedUserInformation;
 
     return { data, error: informationError };
   }

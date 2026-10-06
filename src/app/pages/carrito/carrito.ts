@@ -7,9 +7,10 @@ import { PreciosService } from '../../services/precios.service';
 import { FormsModule } from '@angular/forms';
 import { Button } from '../../ui/button/button';
 import { InputComponent } from '../../ui/input/input';
+import { QRCodeComponent } from 'angularx-qrcode';
 
 @Component({
-  imports: [Button, InputComponent, FormsModule],
+  imports: [Button, InputComponent, FormsModule, QRCodeComponent],
   selector: 'app-carrito',
   styleUrl: './carrito.scss',
   templateUrl: './carrito.html',
@@ -94,7 +95,8 @@ export class Carrito {
     this.comprando.set(false);
 
     if (booking) {
-      this.codigosReserva.set([String(booking.id).slice(0, 4)]);
+      const timestamp = new Date().getTime().toString().slice(-3);
+      this.codigosReserva.set([String(booking.id).slice(-3)+timestamp]);
       this.carritoService.vaciar();
       this.codigoCupon = '';
       this.cupon.set(null);

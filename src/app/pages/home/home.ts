@@ -12,9 +12,10 @@ import { CompraEntradasModal } from '../compra-entradas-modal/compra-entradas-mo
 import { ReviewsService } from '../../services/reviews.service';
 import { RouterLink } from '@angular/router';
 import { DecimalPipe } from '@angular/common';
+import { EdadMinima } from '../../directives/edad-minima';
 
 @Component({
-  imports: [Button, FormsModule, InputComponent, RouterLink, DecimalPipe],
+  imports: [Button, FormsModule, InputComponent, RouterLink, DecimalPipe, EdadMinima],
   selector: 'app-home',
   styleUrl: './home.scss',
   templateUrl: './home.html',

@@ -5,6 +5,7 @@
     <div class="reserva-exito">
       @for (codigo of codigosReserva(); track codigo) {
         <p>Tu numero de reserva es: <strong>{{ codigo }}</strong></p>
+        <qrcode [qrdata]="codigo" [width]="200"></qrcode>
       }
       <app-button bg="black" (click)="cerrarReserva()">Aceptar</app-button>
     </div>

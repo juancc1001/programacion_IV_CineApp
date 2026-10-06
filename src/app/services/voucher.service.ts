@@ -34,7 +34,24 @@ export class VoucherService {
     return data;
   }
 
-  async getVoucherByCode(code: string, userId: string): Promise<Voucher | null> {
+  async getVoucherByCode(code: string, userId?: string): Promise<Voucher | null> {
+    if (!userId) {
+      const { data, error } = await this.supabase
+        .from('voucher')
+        .select('*')
+        .eq('code', code)
+        .is('user_id', null)
+        .limit(1)
+        .maybeSingle();
+
+      if (error) {
+        console.error('Error loading voucher:', error);
+        return null;
+      }
+
+      return data;
+    }
+
     const { data, error } = await this.supabase
       .from('voucher')
       .select('*')

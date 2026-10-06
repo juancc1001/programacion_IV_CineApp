@@ -13,7 +13,7 @@
     padding: 20px;
     width: 50%;
     max-width: 400px;
-    height: 95vh;
+    max-height: 95vh;
     overflow-y: auto;
     background-color: var(--color-bg);
     border: 1px solid black;
@@ -24,6 +24,11 @@
         display: flex;
         flex-direction: column;
         gap: 16px;
+    }
+
+    .error {
+        color: var(--color-danger);
+        margin: 0;
     }
 
     .select {

@@ -1,5 +1,5 @@
 @if (pelicula(); as pelicula) {
-  <article class="cartelera-card">
+  <div class="cartelera-card">
     <img [src]="pelicula.image_url || '/assets/poster_placeholder.jpg'" [alt]="pelicula.title" />
     <div class="cartelera-info">
       <h3>{{ pelicula.title }}</h3>
@@ -10,7 +10,7 @@
         <p>★ {{ promedio | number: '1.1-1' }}</p>
       }
     </div>
-  </article>
+  </div>
 }
 
 <div class="reviews">
@@ -31,11 +31,11 @@
   }
 
   @for (review of reviews(); track review.id) {
-    <article class="review">
+    <div class="review">
       <strong>{{ review.nombre }}</strong>
       <span class="estrellas-review">{{ '★'.repeat(review.score) }}{{ '☆'.repeat(5 - review.score) }}</span>
       <p>{{ review.comment }}</p>
-    </article>
+    </div>
   } @empty {
     <p>Aún no hay reseñas para esta película</p>
   }
