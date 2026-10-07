@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Roles } from '../../../types/roles';
-import { Pelicula, PeliculasService } from '../../services/peliculas.service';
+import { Pelicula, PeliculaProxima, PeliculasService } from '../../services/peliculas.service';
 import { FuncionesService } from '../../services/funciones.service';
 import { CarritoService } from '../../services/carrito.service';
 import { Button } from '../../ui/button/button';
@@ -11,11 +11,11 @@ import { ModalService } from '../../services/modal.service';
 import { CompraEntradasModal } from '../compra-entradas-modal/compra-entradas-modal';
 import { ReviewsService } from '../../services/reviews.service';
 import { RouterLink } from '@angular/router';
-import { DecimalPipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import { EdadMinima } from '../../directives/edad-minima';
 
 @Component({
-  imports: [Button, FormsModule, InputComponent, RouterLink, DecimalPipe, EdadMinima],
+  imports: [Button, FormsModule, InputComponent, RouterLink, DecimalPipe, DatePipe, EdadMinima],
   selector: 'app-home',
   styleUrl: './home.scss',
   templateUrl: './home.html',
@@ -30,6 +30,7 @@ export class Home {
 
   readonly userInformation = this.authService.userInformation;
   destacadas = signal<Pelicula[]>([]);
+  proximamente = signal<PeliculaProxima[]>([]);
 
   readonly diasCartelera = this.crearDiasCartelera();
   diaSeleccionado = signal(this.diasCartelera[0]);
@@ -55,7 +56,7 @@ export class Home {
   
   constructor() {
     this.loadPeliculasDestacadas();
-    this.loadCartelera();
+    this.loadProximamente().then(() => this.loadCartelera());
     this.loadPromedios();
   }
 
@@ -67,15 +68,31 @@ export class Home {
     this.destacadas.set(await this.moviesService.getPeliculasMasVistas(3));
   }
 
+  async loadProximamente() {
+    this.proximamente.set(await this.moviesService.getProximamente(aFechaIso(new Date())));
+  }
+
+  // la preventa abre 7 dias antes del estreno
+  aperturaPreventa(estreno: string): Date {
+    const fecha = aFecha(estreno);
+    fecha.setDate(fecha.getDate() - 7);
+    return fecha;
+  }
+
+  aFecha(fecha: string): Date {
+    return aFecha(fecha);
+  }
+
   // una card por pelicula, con todos los horarios de ese dia
   async loadCartelera() {
     const funciones = await this.funcionesService.getFuncionesPorFecha(
       aFechaIso(this.diaSeleccionado()),
     );
     const peliculaDict = new Map<number, PeliculaEnCartelera>();
+    const proximas = this.proximamente().map((item) => item.pelicula.id);
 
     for (const funcion of funciones) {
-      if (!funcion.movies || !funcion.start_time) {
+      if (!funcion.movies || !funcion.start_time || proximas.includes(funcion.movies.id)) {
         continue;
       }
 
@@ -135,6 +152,16 @@ export class Home {
     this.carritoService.compraSeleccionada.set({
       pelicula,
       fecha: aFechaIso(this.diaSeleccionado()),
+      preventa: false,
+    });
+    this.modalService.open(CompraEntradasModal);
+  }
+
+  abrirPreventa(proxima: PeliculaProxima) {
+    this.carritoService.compraSeleccionada.set({
+      pelicula: proxima.pelicula,
+      fecha: proxima.estreno,
+      preventa: true,
     });
     this.modalService.open(CompraEntradasModal);
   }
@@ -184,4 +211,10 @@ function aFechaIso(dia: Date): string {
   const numero = `${dia.getDate()}`.padStart(2, '0');
 
   return `${dia.getFullYear()}-${mes}-${numero}`;
+}
+
+function aFecha(fechaIso: string): Date {
+  const [anio, mes, dia] = fechaIso.split('-').map(Number);
+
+  return new Date(anio, mes - 1, dia);
 }

@@ -1,0 +1,27 @@
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+
+.dashboard-seccion {
+  padding: 12px;
+  border: 1.5px solid black;
+  border-radius: 2px;
+  background: white;
+
+  h3,
+  h4 {
+    margin: 0 0 10px;
+  }
+
+  p {
+    margin: 0 0 4px;
+  }
+}
+
+.dashboard-columnas {
+  display: flex;
+  gap: 40px;
+}

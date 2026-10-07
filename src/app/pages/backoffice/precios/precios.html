@@ -1,0 +1,53 @@
+<div class="crud-view">
+  <h2>Precios de entradas</h2>
+  <div class="crud-page">
+    <div class="crud-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Número</th>
+            <th>Tipo</th>
+            <th>Precio</th>
+            <th>Precio en puntos</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (precio of precios(); track precio.id) {
+            <tr>
+              <td>{{ precio.id }}</td>
+              <td>{{ precio.label }}</td>
+              <td>{{ precio.price }}</td>
+              <td>{{ precio.points }}</td>
+              <td>
+                <button type="button" style="background: none; border: none; cursor: pointer" (click)="editPrecio(precio)">
+                  <span class="material-symbols-outlined">edit</span>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <!-- agrega la clase "abierto" dependiendo de showForm (true/false) -->
+    <div class="crud-form-panel" [class.abierto]="showForm">
+      <button type="button" class="crud-form-tab" (click)="toggleForm()">
+        <span class="material-symbols-outlined">add</span>
+        AGREGAR NUEVO PRECIO
+      </button>
+      <div class="crud-form-container">
+        <form class="crud-form">
+          <label>Tipo:</label>
+          <input name="label" placeholder="Tipo" [(ngModel)]="newPrecio.label" />
+          <label>Precio:</label>
+          <input name="price" type="number" placeholder="Precio" [(ngModel)]="newPrecio.price" />
+          <label>Precio en puntos:</label>
+          <input name="points" type="number" placeholder="Precio en puntos" [(ngModel)]="newPrecio.points" />
+          <app-button style="margin: 10px 0px" type="submit" (click)="savePrecio()">
+            {{ editingId === null ? 'Agregar' : 'Guardar' }}
+          </app-button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

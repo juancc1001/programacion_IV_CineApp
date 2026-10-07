@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { Button } from '../../../ui/button/button';
 import { Multiselect } from '../../../ui/multiselect/multiselect';
 import { FormatoPelicula } from '../../../../types/formato-pelicula';
+import { LogService } from '../../../services/log.service';
 
 @Component({
   imports: [CommonModule, FormsModule, Button, Multiselect],
@@ -13,6 +14,7 @@ import { FormatoPelicula } from '../../../../types/formato-pelicula';
 })
 export class Salas {
   protected readonly salasService = inject(SalasService);
+  private readonly logService = inject(LogService);
   formatosPelicula = signal(Object.values(FormatoPelicula));
 
   salas = signal<Sala[]>([]);
@@ -39,6 +41,7 @@ export class Salas {
     let formatted = this.newSala.formats.join(', ');
 
     await this.salasService.createSala({ ...this.newSala, formats: formatted });
+    await this.logService.registrar(`creó la sala '${this.newSala.name}'`);
     this.newSala = { name: '', floor: 1, formats: [] };
     await this.loadSalas();
   }

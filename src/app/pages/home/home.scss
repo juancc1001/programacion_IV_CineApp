@@ -93,6 +93,20 @@
   margin: 20px auto 0;
 }
 
+.proximamente-titulo {
+  max-width: 70%;
+  margin: 20px auto 0;
+}
+
+.proximamente {
+  border-bottom: 2px solid var(--color-secondary);
+  box-shadow: 0 2px 0 0 black;
+
+  .dia-container {
+    margin-bottom: 30px;
+  }
+}
+
 .dia-container {
   display: flex;
   flex-direction: column;

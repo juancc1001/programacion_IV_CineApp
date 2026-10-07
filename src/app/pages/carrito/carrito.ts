@@ -1,5 +1,6 @@
-import { Component, computed, inject, signal } from '@angular/core';
-import { CarritoService, ItemProducto } from '../../services/carrito.service';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
+import { CarritoService, ItemCarrito, ItemProducto } from '../../services/carrito.service';
 import { BookingService } from '../../services/booking.service';
 import { Voucher, VoucherService } from '../../services/voucher.service';
 import { AuthService } from '../../services/auth.service';
@@ -8,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { Button } from '../../ui/button/button';
 import { InputComponent } from '../../ui/input/input';
 import { QRCodeComponent } from 'angularx-qrcode';
+import { esVip } from '../../ui/mapa-sala/mapa-sala';
 
 @Component({
   imports: [Button, InputComponent, FormsModule, QRCodeComponent],
@@ -15,12 +17,13 @@ import { QRCodeComponent } from 'angularx-qrcode';
   styleUrl: './carrito.scss',
   templateUrl: './carrito.html',
 })
-export class Carrito {
+export class Carrito implements OnInit {
   private readonly carritoService = inject(CarritoService);
   private readonly bookingService = inject(BookingService);
   private readonly voucherService = inject(VoucherService);
   private readonly authService = inject(AuthService);
   private readonly preciosService = inject(PreciosService);
+  private readonly router = inject(Router);
 
   readonly items = this.carritoService.items;
   readonly entrada = this.carritoService.entrada;
@@ -30,16 +33,14 @@ export class Carrito {
   cupon = signal<Voucher | null>(null);
   mensajeCupon = signal<string | null>(null);
   precioEntrada = signal(0);
+  precioVip = signal(0);
+  readonly usuario = this.authService.userInformation;
 
   subtotal = computed(() => {
     let subtotal = 0;
 
     for (const item of this.items()) {
-      if (item.tipo === 'entrada') {
-        subtotal += item.butacas.length * this.precioEntrada();
-      } else {
-        subtotal += item.cantidad * item.producto.price;
-      }
+      subtotal += this.precioItem(item);
     }
 
     return subtotal;
@@ -62,8 +63,33 @@ export class Carrito {
     this.loadPrecioEntrada();
   }
 
+  ngOnInit() {
+    if (this.carritoService.canje()) {
+      this.router.navigate(['/canjes']);
+    }
+  }
+
   async loadPrecioEntrada() {
-    this.precioEntrada.set(await this.preciosService.getPrecio('standard'));
+    const precio = await this.preciosService.getPrecio('standard');
+    this.precioEntrada.set(precio?.price ?? 0);
+    const vip = await this.preciosService.getPrecio('vip');
+    this.precioVip.set(vip?.price ?? 0);
+  }
+
+  precioItem(item: ItemCarrito) {
+    if (item.tipo === 'producto') {
+      return item.cantidad * item.producto.price;
+    }
+
+    if (item.preventa && item.pelicula.presale_price !== null) {
+      return item.butacas.length * item.pelicula.presale_price;
+    }
+
+    let total = 0;
+    for (const butaca of item.butacas) {
+      total += esVip(butaca) ? this.precioVip() : this.precioEntrada();
+    }
+    return total;
   }
 
   eliminar(index: number) {
@@ -90,7 +116,7 @@ export class Carrito {
       .filter((item): item is ItemProducto => item.tipo === 'producto')
       .map((item) => ({ productId: item.producto.id, cantidad: item.cantidad }));
 
-    const booking = await this.bookingService.crearBooking(entrada.funcionId, entrada.butacas, productos, this.cupon()?.id ?? null);
+    const booking = await this.bookingService.crearBooking(entrada.funcionId, entrada.fecha, entrada.butacas, productos, this.cupon()?.id ?? null, 0, this.total());
 
     if (booking?.user_id) {
       await this.authService.sumarPuntos(Math.floor(this.total()));

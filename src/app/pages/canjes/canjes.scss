@@ -1,0 +1,32 @@
+.canjes-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.canje-entrada,
+.reserva-exito {
+  margin-bottom: 16px;
+  padding: 12px;
+  border: 1.5px solid black;
+  border-radius: 2px;
+  background: white;
+
+  h3,
+  p {
+    margin: 0 0 4px;
+  }
+}
+
+.reserva-exito {
+  text-align: center;
+}
+
+.canje-total {
+  margin-top: 16px;
+  text-align: right;
+}
+
+.sin-puntos {
+  color: var(--color-danger);
+}

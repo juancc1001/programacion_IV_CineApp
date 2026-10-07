@@ -28,7 +28,7 @@
               <h3>{{ item.pelicula.title }}</h3>
               <p>{{ item.formato }} - {{ item.horario }}</p>
               <p>Butacas: {{ item.butacas.join(', ') }}</p>
-              <p>$ {{ item.butacas.length * precioEntrada() }}</p>
+              <p>$ {{ precioItem(item) }}</p>
             </div>
           } @else {
             @if (item.producto.image_url) {
@@ -39,7 +39,7 @@
             <div class="carrito-item-info">
               <h3>{{ item.producto.name }}</h3>
               <p>Cantidad: {{ item.cantidad }}</p>
-              <p>$ {{ item.cantidad * item.producto.price }}</p>
+              <p>$ {{ precioItem(item) }}</p>
             </div>
           }
           <button type="button" class="eliminar-btn" (click)="eliminar($index)">
@@ -64,6 +64,9 @@
         }
         $ {{ total() }}
       </p>
+      @if (usuario(); as usuario) {
+        <p>Tus puntos son: {{ usuario.points }}</p>
+      }
       <app-button bg="black" [disabled]="!entrada()" (click)="comprarCarrito()">
         {{ comprando() ? 'Comprando...' : 'Comprar' }}
       </app-button>

@@ -64,6 +64,33 @@ export class PeliculasService {
       .map((item) => item.pelicula);
   }
 
+  // el estreno es el primer "from" de las funciones de cada pelicula
+  async getProximamente(hoy: string): Promise<PeliculaProxima[]> {
+    const { data, error } = await this.supabase.from('showtimes').select('from, movies(*)');
+
+    if (error) {
+      console.error('Error loading proximamente:', error);
+      return [];
+    }
+
+    const estrenos = new Map<number, PeliculaProxima>();
+
+    for (const funcion of data) {
+      if (!funcion.movies || !funcion.from) {
+        continue;
+      }
+
+      const actual = estrenos.get(funcion.movies.id);
+      if (!actual || funcion.from < actual.estreno) {
+        estrenos.set(funcion.movies.id, { pelicula: funcion.movies, estreno: funcion.from });
+      }
+    }
+
+    return [...estrenos.values()]
+      .filter((item) => item.estreno > hoy)
+      .sort((a, b) => a.estreno.localeCompare(b.estreno));
+  }
+
   async getPelicula(id: number): Promise<Pelicula | null> {
     const { data, error } = await this.supabase.from('movies').select('*').eq('id', id).single();
 
@@ -133,3 +160,8 @@ export class PeliculasService {
 }
 
 export type Pelicula = Tables<'movies'>;
+
+export interface PeliculaProxima {
+  pelicula: Pelicula;
+  estreno: string;
+}

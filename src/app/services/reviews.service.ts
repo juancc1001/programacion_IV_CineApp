@@ -58,6 +58,20 @@ export class ReviewsService {
     return promedios;
   }
 
+  async getScoresUsuario(userId: string): Promise<Map<number, number>> {
+    const { data, error } = await this.supabase
+      .from('reviews')
+      .select('movie_id, score')
+      .eq('user_id', userId);
+
+    if (error) {
+      console.error('Error loading scores:', error);
+      return new Map();
+    }
+
+    return new Map(data.map((review) => [review.movie_id, review.score]));
+  }
+
   async createReview(movieId: number, score: number, comment: string) {
     const {
       data: { session },

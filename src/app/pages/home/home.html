@@ -15,6 +15,44 @@
       </article>
     }
   </div>
+  @if (proximamente().length) {
+    <section class="proximamente">
+      <h2 class="proximamente-titulo">Próximamente</h2>
+      <div class="dia-container">
+        @for (proxima of proximamente(); track proxima.pelicula.id) {
+          <article class="cartelera-card">
+            <img
+              [src]="proxima.pelicula.image_url || '/assets/poster_placeholder.jpg'"
+              [alt]="proxima.pelicula.title"
+            />
+            <div class="cartelera-info">
+              <h3>{{ proxima.pelicula.title }}</h3>
+              <p>Estreno: {{ aFecha(proxima.estreno) | date: 'dd/MM' }}</p>
+              <p>
+                {{ proxima.pelicula.duration }} min &middot; {{ proxima.pelicula.genres }} &middot; {{ proxima.pelicula.available_formats }}
+              </p>
+              <p class="movie-sinopsis">{{ proxima.pelicula.sinopsis }}</p>
+              <div class="cartelera-acciones">
+                @if (proxima.pelicula.presale_price !== null) {
+                  <span>Preventa: $ {{ proxima.pelicula.presale_price }}</span>
+                }
+                @if (aperturaPreventa(proxima.estreno) <= diasCartelera[0]) {
+                  <app-button
+                    *edadMinima="proxima.pelicula.age_restriction"
+                    (click)="abrirPreventa(proxima)"
+                    bg="secondary"
+                    >Comprar preventa</app-button
+                  >
+                } @else {
+                  <span>Preventa desde el {{ aperturaPreventa(proxima.estreno) | date: 'dd/MM' }}</span>
+                }
+              </div>
+            </div>
+          </article>
+        }
+      </div>
+    </section>
+  }
   <div class="cartelera-container">
     <div class="cartelera-dias">
       @for (dia of diasCartelera; track dia.getTime()) {

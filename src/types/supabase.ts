@@ -92,21 +92,30 @@ export type Database = {
         Row: {
           created_at: string
           id: number
+          points_used: number
+          showtime_date: string | null
           showtime_id: number
+          total: number
           user_id: string | null
           voucher_id: number | null
         }
         Insert: {
           created_at?: string
           id?: number
+          points_used?: number
+          showtime_date?: string | null
           showtime_id: number
+          total?: number
           user_id?: string | null
           voucher_id?: number | null
         }
         Update: {
           created_at?: string
           id?: number
+          points_used?: number
+          showtime_date?: string | null
           showtime_id?: number
+          total?: number
           user_id?: string | null
           voucher_id?: number | null
         }
@@ -127,6 +136,24 @@ export type Database = {
           },
         ]
       }
+      Log: {
+        Row: {
+          created_at: string
+          id: number
+          log: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          log?: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          log?: string
+        }
+        Relationships: []
+      }
       movies: {
         Row: {
           age_restriction: number | null
@@ -138,6 +165,7 @@ export type Database = {
           id: number
           image_url: string | null
           languages: string | null
+          presale_price: number | null
           sinopsis: string | null
           title: string
         }
@@ -151,6 +179,7 @@ export type Database = {
           id?: number
           image_url?: string | null
           languages?: string | null
+          presale_price?: number | null
           sinopsis?: string | null
           title: string
         }
@@ -164,6 +193,7 @@ export type Database = {
           id?: number
           image_url?: string | null
           languages?: string | null
+          presale_price?: number | null
           sinopsis?: string | null
           title?: string
         }
@@ -174,44 +204,56 @@ export type Database = {
           created_at: string
           id: number
           label: string
+          points: number
           price: number
         }
         Insert: {
           created_at?: string
           id?: number
           label: string
+          points?: number
           price: number
         }
         Update: {
           created_at?: string
           id?: number
           label?: string
+          points?: number
           price?: number
         }
         Relationships: []
       }
       products: {
         Row: {
+          combo_items: string | null
           created_at: string
           id: number
           image_url: string | null
+          is_combo: boolean
           name: string
+          point_price: number
           price: number
           stock: number | null
         }
         Insert: {
+          combo_items?: string | null
           created_at?: string
           id?: number
           image_url?: string | null
+          is_combo?: boolean
           name?: string
+          point_price?: number
           price?: number
           stock?: number | null
         }
         Update: {
+          combo_items?: string | null
           created_at?: string
           id?: number
           image_url?: string | null
+          is_combo?: boolean
           name?: string
+          point_price?: number
           price?: number
           stock?: number | null
         }

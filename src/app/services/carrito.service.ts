@@ -9,9 +9,11 @@ export interface ItemEntrada {
   tipo: 'entrada';
   pelicula: Pelicula;
   funcionId: number;
+  fecha: string;
   horario: string;
   formato: string;
   butacas: string[];
+  preventa: boolean;
 }
 
 export interface ItemProducto {
@@ -25,6 +27,7 @@ export type ItemCarrito = ItemEntrada | ItemProducto;
 export interface CompraSeleccionada {
   pelicula: Pelicula;
   fecha: string;
+  preventa: boolean;
 }
 
 @Injectable({
@@ -38,6 +41,8 @@ export class CarritoService {
     this.items().find((item): item is ItemEntrada => item.tipo === 'entrada'),
   );
   readonly compraSeleccionada = signal<CompraSeleccionada | null>(null);
+  // entrada a canjear con puntos, separada del carrito pagado con dinero
+  readonly canje = signal<Omit<ItemEntrada, 'tipo'> | null>(null);
 
   // el carrito admite una sola funcion a la vez
   agregarEntrada(item: Omit<ItemEntrada, 'tipo'>): boolean {

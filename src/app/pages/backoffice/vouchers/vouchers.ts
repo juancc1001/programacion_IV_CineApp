@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Button } from '../../../ui/button/button';
 import { Multiselect } from '../../../ui/multiselect/multiselect';
+import { LogService } from '../../../services/log.service';
 
 @Component({
   imports: [CommonModule, FormsModule, Button, Multiselect],
@@ -13,6 +14,7 @@ import { Multiselect } from '../../../ui/multiselect/multiselect';
 })
 export class Vouchers {
   protected readonly voucherService = inject(VoucherService);
+  private readonly logService = inject(LogService);
   private readonly authService = inject(AuthService);
 
   vouchers = signal<Voucher[]>([]);
@@ -87,8 +89,10 @@ export class Vouchers {
 
     if (this.editingId === null) {
       await this.voucherService.createVoucher(voucher);
+      await this.logService.registrar(`creó el voucher '${voucher.code}'`);
     } else {
       await this.voucherService.updateVoucher(this.editingId, voucher);
+      await this.logService.registrar(`editó el voucher '${voucher.code}': ${JSON.stringify(voucher)}`);
     }
 
     this.newVoucher = this.emptyVoucher();

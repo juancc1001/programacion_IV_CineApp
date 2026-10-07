@@ -8,8 +8,10 @@
             <th>Número</th>
             <th>Nombre</th>
             <th>Precio</th>
+            <th>Precio en puntos</th>
             <th>Stock</th>
             <th>Imagen</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -18,11 +20,17 @@
               <td>{{ producto.id }}</td>
               <td>{{ producto.name }}</td>
               <td>{{ producto.price }}</td>
+              <td>{{ producto.point_price }}</td>
               <td>{{ producto.stock }}</td>
               <td>
                 @if (producto.image_url) {
                   <img [src]="producto.image_url" alt="producto" style="height: 60px" />
                 }
+              </td>
+              <td>
+                <button type="button" style="background: none; border: none; cursor: pointer" (click)="editProducto(producto)">
+                  <span class="material-symbols-outlined">edit</span>
+                </button>
               </td>
             </tr>
           }
@@ -41,13 +49,29 @@
           <input name="name" placeholder="Nombre" [(ngModel)]="newProducto.name" />
           <label>Precio:</label>
           <input name="price" type="number" placeholder="Precio" [(ngModel)]="newProducto.price" />
+          <label>Precio en puntos:</label>
+          <input name="point_price" type="number" placeholder="Precio en puntos" [(ngModel)]="newProducto.point_price" />
           <label>Stock:</label>
           <input name="stock" type="number" placeholder="Stock" [(ngModel)]="newProducto.stock" />
           <label>Imagen:</label>
           <input type="file" accept="image/*" (change)="onFileSelected($event)" />
-          <app-button style="margin: 10px 0px" type="submit" (click)="addProducto()"
-            >Agregar</app-button
-          >
+          <label class="crud-form-toggle">
+            Combo:
+            <input type="checkbox" name="is_combo" [(ngModel)]="newProducto.is_combo" />
+            <span class="crud-form-switch"></span>
+          </label>
+          @if (newProducto.is_combo) {
+            <label>Productos del combo:</label>
+            <app-multiselect
+              name="combo_items"
+              placeholder="Productos"
+              [options]="opcionesCombo()"
+              [(ngModel)]="newProducto.combo_items"
+            />
+          }
+          <app-button style="margin: 10px 0px" type="submit" (click)="saveProducto()">
+            {{ editingId === null ? 'Agregar' : 'Guardar' }}
+          </app-button>
         </form>
       </div>
     </div>

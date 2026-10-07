@@ -12,6 +12,7 @@
             <th>Idiomas</th>
             <th>Formatos</th>
             <th>Restricción de Edad</th>
+            <th>Precio Preventa</th>
             <th>Sinopsis</th>
             <th>Imagen</th>
           </tr>
@@ -26,6 +27,7 @@
               <td>{{ pelicula.languages }}</td>
               <td>{{ pelicula.available_formats }}</td>
               <td>{{ pelicula.age_restriction }}</td>
+              <td>{{ pelicula.presale_price }}</td>
               <td>{{ pelicula.sinopsis }}</td>
               <td>
                 @if (pelicula.image_url) {
@@ -76,6 +78,13 @@
             type="number"
             placeholder="Restricción de Edad"
             [(ngModel)]="newPelicula.age_restriction">
+          <label>Precio Preventa:</label>
+          <input
+            name="presale_price"
+            type="number"
+            placeholder="Precio Preventa"
+            [(ngModel)]="newPelicula.presale_price"
+          />
           <label>Sinopsis:</label>
           <input name="sinopsis" placeholder="Sinopsis" [(ngModel)]="newPelicula.sinopsis" />
           <label>Imagen:</label>

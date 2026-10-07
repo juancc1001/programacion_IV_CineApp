@@ -80,6 +80,10 @@
     color: white;
   }
 
+  &.vip {
+    background: yellow;
+  }
+
   &.seleccionada {
     background: var(--color-primary);
     color: white;

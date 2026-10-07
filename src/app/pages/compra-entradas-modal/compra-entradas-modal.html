@@ -31,7 +31,23 @@
           <app-button bg="secondary" (click)="agregarAlCarrito()">
             Agregar al carrito
           </app-button>
+          @if (usuario(); as usuario) {
+            @if (!compra()?.preventa) {
+              <app-button
+                bg="black"
+                [disabled]="!puntosEntrada() || puntosCanje > usuario.points"
+                (click)="canjear()"
+              >
+                Canjear con puntos ({{ puntosCanje }} pts)
+              </app-button>
+            }
+          }
         </div>
+        @if (usuario(); as usuario) {
+          @if (!compra()?.preventa && puntosCanje > usuario.points) {
+            <p style="color: var(--color-danger)">No tenés suficientes puntos para la compra</p>
+          }
+        }
         @if (error(); as error) {
           <p>{{ error }}</p>
         }

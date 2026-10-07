@@ -64,6 +64,16 @@ export class FuncionesService {
     return data.map((butaca) => butaca.seat);
   }
 
+  // se escuchan cambios a la tabla booking_seats en un canal con id de la funcion
+  escucharButacas(funcionId: number, callback: () => void) {
+    const canal = this.supabase
+      .channel(`butacas-${funcionId}`)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'booking_seats' }, callback)
+      .subscribe();
+
+    return () => this.supabase.removeChannel(canal);
+  }
+
   //valida que no haya funcion hasta media hora antes de que comience la que se quiera ingresar
   async validateFuncion(funcion: TablesInsert<'showtimes'>): Promise<string | null> {
     const { data, error } = await this.supabase

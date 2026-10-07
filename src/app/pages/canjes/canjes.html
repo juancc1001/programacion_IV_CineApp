@@ -1,0 +1,64 @@
+<div class="candy-container">
+  <div class="canjes-header">
+    <h2>Canjes</h2>
+    @if (canje()) {
+      <app-button bg="black" (click)="cancelarCanje()">Cancelar canje</app-button>
+    }
+  </div>
+
+  @if (codigoReserva(); as codigo) {
+    <div class="reserva-exito">
+      <p>Tu numero de reserva es: <strong>{{ codigo }}</strong></p>
+      <qrcode [qrdata]="codigo" [width]="200"></qrcode>
+      <app-button bg="black" (click)="codigoReserva.set(null)">Aceptar</app-button>
+    </div>
+  }
+
+  @if (usuario(); as usuario) {
+    <p>Tus puntos son: {{ usuario.points }}</p>
+
+    @if (canje(); as canje) {
+      <div class="canje-entrada">
+        <h3>{{ canje.pelicula.title }}</h3>
+        <p>{{ canje.formato }} - {{ canje.horario }}</p>
+        <p>Butacas: {{ canje.butacas.join(', ') }}</p>
+        <p>{{ puntosButacas() }} pts</p>
+      </div>
+
+      <div class="candy-grid">
+        @for (producto of productos(); track producto.id) {
+          <div class="producto-card">
+            @if (producto.image_url) {
+              <img [src]="producto.image_url" [alt]="producto.name" />
+            } @else {
+              <span class="material-symbols-outlined sin-imagen">hide_image</span>
+            }
+            <h3>{{ producto.name }}</h3>
+            <p>{{ producto.point_price }} pts</p>
+            <div class="selector">
+              <button type="button" [disabled]="cantidad(producto) === 0" (click)="restar(producto)">-</button>
+              <span>{{ cantidad(producto) }}</span>
+              <button type="button" [disabled]="cantidad(producto) >= max(producto)" (click)="sumar(producto)">
+                +
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="canje-total">
+        <p>Total: {{ totalPuntos() }} pts</p>
+        <app-button bg="black" [disabled]="canjeando() || totalPuntos() > usuario.points" (click)="canjear()">
+          {{ canjeando() ? 'Canjeando...' : 'Canjear' }}
+        </app-button>
+        @if (totalPuntos() > usuario.points) {
+          <p class="sin-puntos">No tenés suficientes puntos para la compra</p>
+        }
+      </div>
+    } @else if (!codigoReserva()) {
+      <p>Elegí una función y tus butacas desde la <a routerLink="/" style="text-decoration: underline;">cartelera</a> para canjear entradas con puntos.</p>
+    }
+  } @else {
+    <p>Iniciá sesión para canjear tus puntos.</p>
+  }
+</div>

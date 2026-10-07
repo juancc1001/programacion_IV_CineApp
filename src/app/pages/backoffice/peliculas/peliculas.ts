@@ -6,6 +6,7 @@ import { Button } from '../../../ui/button/button';
 import { Multiselect } from '../../../ui/multiselect/multiselect';
 import { GeneroPelicula } from '../../../../types/genero-pelicula';
 import { FormatoPelicula } from '../../../../types/formato-pelicula';
+import { LogService } from '../../../services/log.service';
 
 @Component({
   imports: [CommonModule, FormsModule, Button, Multiselect],
@@ -14,6 +15,7 @@ import { FormatoPelicula } from '../../../../types/formato-pelicula';
 })
 export class Peliculas {
   protected readonly peliculasService = inject(PeliculasService);
+  private readonly logService = inject(LogService);
   generosPelicula = signal(Object.values(GeneroPelicula));
   formatosPelicula = signal(Object.values(FormatoPelicula));
 
@@ -27,6 +29,7 @@ export class Peliculas {
     age_restriction: 0,
     sinopsis: '',
     highlighted: false,
+    presale_price: null as number | null,
   };
   selectedFile: File | null = null;
   showForm = false;
@@ -60,6 +63,7 @@ export class Peliculas {
       available_formats: this.newPelicula.available_formats.join(', '),
       image_url: imageUrl,
     });
+    await this.logService.registrar(`creó la película '${this.newPelicula.title}'`);
 
     this.newPelicula = {
       title: '',
@@ -70,6 +74,7 @@ export class Peliculas {
       age_restriction: 0,
       sinopsis: '',
       highlighted: false,
+      presale_price: null,
     };
     this.selectedFile = null;
     await this.loadPeliculas();

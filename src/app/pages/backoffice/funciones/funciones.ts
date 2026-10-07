@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Button } from '../../../ui/button/button';
 import { FechaInput } from '../../../ui/fecha-input/fecha-input';
+import { LogService } from '../../../services/log.service';
 
 @Component({
   imports: [CommonModule, FormsModule, Button, FechaInput],
@@ -14,6 +15,7 @@ import { FechaInput } from '../../../ui/fecha-input/fecha-input';
 })
 export class Funciones {
   protected readonly funcionesService = inject(FuncionesService);
+  private readonly logService = inject(LogService);
   protected readonly peliculasService = inject(PeliculasService);
   protected readonly salasService = inject(SalasService);
 
@@ -113,6 +115,9 @@ export class Funciones {
     }
 
     await this.funcionesService.createFuncion(this.newFuncion);
+    await this.logService.registrar(
+      `creó la función de '${this.peliculaSeleccionada()?.title}' a las ${this.newFuncion.start_time}`,
+    );
     this.newFuncion = {
       movie_id: 0,
       room_id: 0,

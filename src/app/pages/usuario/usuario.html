@@ -1,0 +1,58 @@
+<div class="usuario-container">
+  @if (usuario(); as usuario) {
+    <h2>{{ usuario.name }} {{ usuario.surname }}</h2>
+    <p>Puntos: {{ usuario.points }}</p>
+
+    <div class="usuario-seccion">
+      <h3>Mis reservas</h3>
+      @for (reserva of proximas(); track reserva.id) {
+        <div class="canje-item">
+          <span>{{ reserva.showtimes?.movies?.title }}</span>
+          <span>{{ inicioFuncion(reserva) | date: 'dd/MM/yyyy HH:mm' }}</span>
+          @if (puedeCancelar(reserva)) {
+            <app-button bg="black" (click)="cancelar(reserva)">Cancelar reserva</app-button>
+          }
+        </div>
+      } @empty {
+        <p>No tenés reservas próximas</p>
+      }
+    </div>
+
+    <div class="usuario-seccion">
+      <h3>Historial de canjes</h3>
+      @for (canje of canjes(); track canje.id) {
+        <div class="canje-item">
+          <span>{{ canje.showtimes?.movies?.title }}</span>
+          <span>{{ canje.created_at | date: 'dd/MM/yyyy' }}</span>
+          <span>{{ canje.points_used }} pts</span>
+        </div>
+      } @empty {
+        <p>No hiciste canjes todavía</p>
+      }
+    </div>
+
+    <div class="usuario-seccion">
+      <h3>Mis películas</h3>
+      <div class="peliculas-grid">
+        @for (reserva of pasadas(); track reserva.id) {
+          <div class="pelicula-item">
+            <img
+              [src]="reserva.showtimes?.movies?.image_url || '/assets/poster_placeholder.jpg'"
+              [alt]="reserva.showtimes?.movies?.title"
+            />
+            <p>{{ reserva.showtimes?.movies?.title }}</p>
+            <p>{{ reserva.created_at | date: 'dd/MM/yyyy' }}</p>
+            @if (reserva.showtimes?.movies; as pelicula) {
+              @if (scores().get(pelicula.id); as score) {
+                <p>{{ '★'.repeat(score) }}{{ '☆'.repeat(5 - score) }}</p>
+              }
+              <a [routerLink]="['/pelicula', pelicula.id]">Ver reseñas y comentarios</a>
+            }
+          </div>
+        } @empty {
+          <p>No viste películas todavía</p>
+        }
+      </div>
+    </div>
+  }
+</div>

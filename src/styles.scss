@@ -135,7 +135,6 @@ a {
     flex-direction: column;
     padding: 20px 0;
 
-    // hijos directos: no debe alcanzar a los inputs dentro de app-multiselect
     > input,
     > select {
       display: block;

@@ -8,6 +8,10 @@ h2 {
   margin-top: 0;
 }
 
+.seccion-titulo {
+  margin: 20px 0 10px;
+}
+
 .candy-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));

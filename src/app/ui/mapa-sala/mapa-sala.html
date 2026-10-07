@@ -12,6 +12,7 @@
               class="butaca"
               [class.seleccionada]="seleccionadas().includes(butaca.codigo)"
               [class.discapacidad]="fila.discapacidad"
+              [class.vip]="fila.vip"
               [disabled]="ocupadas().includes(butaca.codigo)"
               (click)="toggle(butaca.codigo)"
             >
@@ -38,6 +39,10 @@
     <div class="referencia">
       <span class="butaca discapacidad referencia-butaca"></span>
       <span>♿ Accesibilidad reducida</span>
+    </div>
+    <div class="referencia">
+      <span class="butaca vip referencia-butaca"></span>
+      <span>VIP</span>
     </div>
   </div>
 </div>
