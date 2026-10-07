@@ -10,6 +10,7 @@ import { Button } from '../../ui/button/button';
 import { InputComponent } from '../../ui/input/input';
 import { QRCodeComponent } from 'angularx-qrcode';
 import { esVip } from '../../ui/mapa-sala/mapa-sala';
+import { cumpleEdad } from '../../utils/edad';
 
 @Component({
   imports: [Button, InputComponent, FormsModule, QRCodeComponent],
@@ -61,6 +62,7 @@ export class Carrito implements OnInit {
 
   constructor() {
     this.loadPrecioEntrada();
+    this.cargarCuponPorEdad();
   }
 
   ngOnInit() {
@@ -74,6 +76,18 @@ export class Carrito implements OnInit {
     this.precioEntrada.set(precio?.price ?? 0);
     const vip = await this.preciosService.getPrecio('vip');
     this.precioVip.set(vip?.price ?? 0);
+  }
+
+  async cargarCuponPorEdad() {
+    const usuario = await this.authService.getUserInformation();
+    if (!usuario?.user_id || !usuario.birthdate || !cumpleEdad(usuario.birthdate, 50)) return;
+
+    const cupon = await this.voucherService.getVoucherPorEdad(usuario.user_id, usuario.birthdate);
+    if (cupon && !this.cupon()) {
+      this.cupon.set(cupon);
+      this.codigoCupon = cupon.code ?? '';
+      this.mensajeCupon.set(`Cupón agregado: ${cupon.discount_percentage}% de descuento`);
+    }
   }
 
   precioItem(item: ItemCarrito) {

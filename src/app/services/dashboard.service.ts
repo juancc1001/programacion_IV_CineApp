@@ -27,6 +27,7 @@ export class DashboardService {
         continue;
       }
 
+      //si es la primera entrada para la pelicula es cero, sino suma la cantidad de asientos de la reserva
       conteo.set(titulo, (conteo.get(titulo) ?? 0) + booking.booking_seats.length);
     }
 

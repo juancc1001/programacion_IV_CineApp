@@ -14,7 +14,7 @@ export class AuthService {
   private cachedUserInformation?: Promise<Tables<'user_information'> | null>;
 
   constructor() {
-    this.supabase.auth.onAuthStateChange(() => {
+    this.supabase.auth.onAuthStateChange(() => { // al logearse guarda la información de usuario de user_information
       this.cachedUserInformation = this.fetchUserInformation();
     });
   }
@@ -22,8 +22,11 @@ export class AuthService {
   async signUp(
     email: string,
     password: string,
-    information: Omit<TablesInsert<'user_information'>, 'user_id' | 'role'>,
+    //clase de supabase para insertar en la tabla user_information
+    information: TablesInsert<'user_information'>,
   ) {
+    const { user_id, role, ...cleanInformation } = information;
+
     const { data, error } = await this.supabase.auth.signUp({ email, password });
 
     if (error || !data.user) {
@@ -33,7 +36,7 @@ export class AuthService {
 
     const { error: informationError } = await this.supabase
       .from('user_information')
-      .insert({ ...information, user_id: data.user.id, role: Roles.Client });
+      .insert({ ...cleanInformation, user_id: data.user.id, role: Roles.Client });
 
     if (informationError) {
       console.error('Error saving user information:', informationError);

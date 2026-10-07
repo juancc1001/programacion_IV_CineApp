@@ -5,6 +5,7 @@
     <h3 class="seccion-titulo">Combos</h3>
     <div class="candy-grid">
       @for (producto of combos(); track producto.id) {
+        <!-- $implicit son los parametros del template -->
         <ng-container *ngTemplateOutlet="card; context: { $implicit: producto }" />
       }
     </div>
@@ -17,6 +18,7 @@
   </div>
 </div>
 
+<!-- template para crear el html una sola vez (let-producto recibe el implicit) -->
 <ng-template #card let-producto>
   <div class="producto-card">
     @if (producto.image_url) {

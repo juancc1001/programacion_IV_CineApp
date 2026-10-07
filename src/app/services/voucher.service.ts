@@ -73,6 +73,28 @@ export class VoucherService {
     return data;
   }
 
+  async getVoucherPorEdad(userId: string, birthdate: string): Promise<Voucher | null> {
+    const { data, error } = await this.supabase
+      .from('voucher')
+      .select('*')
+      .not('min_age', 'is', null)
+      .or(`user_id.eq.${userId},user_id.is.null`)
+      .order('discount_percentage', { ascending: false });
+
+    if (error) {
+      console.error('Error loading vouchers:', error);
+      return null;
+    }
+
+    for (const voucher of data) {
+      if (cumpleEdad(birthdate, voucher.min_age!) && !(await this.hasUsedVoucher(voucher.id, userId))) {
+        return voucher;
+      }
+    }
+
+    return null;
+  }
+
   async hasUsedVoucher(voucherId: number, userId: string): Promise<boolean> {
     const { count, error } = await this.supabase
       .from('bookings')

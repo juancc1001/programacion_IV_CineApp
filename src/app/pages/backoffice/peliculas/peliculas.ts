@@ -47,6 +47,7 @@ export class Peliculas {
   }
 
   onFileSelected(event: Event) {
+    //file as inputelement y se agrega al model
     const input = event.target as HTMLInputElement;
     this.selectedFile = input.files?.[0] ?? null;
   }

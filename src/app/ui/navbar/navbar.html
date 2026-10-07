@@ -2,7 +2,7 @@
     <img src="/assets/logo.png" alt="Logo" class="logo" height="35px" style="margin: auto 0" />
     <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">CARTELERA</a>
     <a routerLink="/candy" routerLinkActive="active">CANDY</a>
-    @if (authService.userInformation()) {
+    @if (authService.userInformation()) { <!-- se puede migrar a directiva is-loged -->
         <a routerLink="/canjes" routerLinkActive="active">CANJES</a>
     }
     <!-- routerLinkActive es una directiva de Angular, agrega la clase que se le pasa -->

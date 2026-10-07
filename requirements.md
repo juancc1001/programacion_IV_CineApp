@@ -46,7 +46,7 @@
 
 ### 5. Usuarios Registrados y Fidelización
 - El registro de usuarios debe solicitar: mail, nombre, apellido, fecha de nacimiento, tipo de sangre, color de ojos y cantidad de días de vacaciones por año.
-- El registro otorga automáticamente un cupón de 20% de descuento aplicable a la primera compra.
+- El registro otorga automáticamente un cupón de 20% de descuento aplicable a la primera compra, cupón editable.
 - El programa de fidelización debe sumar 1 punto por cada peso gastado en compras de usuarios registrados.
 - Los puntos deben poder canjearse por entradas gratis o productos del candy bar y el sistema debe impedir su transferencia entre usuarios.
 - El perfil de usuario debe mostrar los puntos acumulados y el historial de canjes realizados.
