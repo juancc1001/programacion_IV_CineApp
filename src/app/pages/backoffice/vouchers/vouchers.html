@@ -9,6 +9,7 @@
             <th>Código</th>
             <th>Descuento (%)</th>
             <th>Descuento máximo</th>
+            <th>Edad mínima</th>
             <th>Usuario</th>
             <th></th>
           </tr>
@@ -20,6 +21,7 @@
               <td>{{ voucher.code }}</td>
               <td>{{ voucher.discount_percentage }}</td>
               <td>{{ voucher.max_discount }}</td>
+              <td>{{ voucher.min_age }}</td>
               <td>{{ usuarioLabel(voucher.user_id) }}</td>
               <td>
                 <button type="button" style="background: none; border: none; cursor: pointer" (click)="editVoucher(voucher)">
@@ -54,6 +56,13 @@
             type="number"
             placeholder="Descuento máximo"
             [(ngModel)]="newVoucher.max_discount"
+          />
+          <label>Edad mínima:</label>
+          <input
+            name="min_age"
+            type="number"
+            placeholder="Edad mínima"
+            [(ngModel)]="newVoucher.min_age"
           />
           <label>Usuario:</label>
           <app-multiselect

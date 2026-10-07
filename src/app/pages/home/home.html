@@ -54,12 +54,11 @@
               }
             </h3>
             @if (enCartelera.pelicula.age_restriction) {
-              <p>⚠️ La película es apta para mayores de {{ enCartelera.pelicula.age_restriction }}</p>
+              <p>⚠️ La película es apta para mayores de {{ enCartelera.pelicula.age_restriction }}, menores deben ingresar con un adulto</p>
             }
             <p>
-              {{ enCartelera.pelicula.duration }} min &middot; {{ enCartelera.pelicula.genres }}
+              {{ enCartelera.pelicula.duration }} min &middot; {{ enCartelera.pelicula.genres }} &middot; {{ enCartelera.pelicula.available_formats }}
             </p>
-            <p>{{ enCartelera.pelicula.available_formats }}</p>
             <p class="movie-sinopsis">{{ enCartelera.pelicula.sinopsis }}</p>
             <a [routerLink]="['/pelicula', enCartelera.pelicula.id]">Ver reseñas y comentarios</a>
             <div class="cartelera-acciones">

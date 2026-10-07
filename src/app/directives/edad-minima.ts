@@ -1,5 +1,6 @@
 import { Directive, TemplateRef, ViewContainerRef, effect, inject, input } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import { cumpleEdad } from '../utils/edad';
 
 @Directive({
   selector: '[edadMinima]',
@@ -28,9 +29,6 @@ export class EdadMinima {
       return true;
     }
 
-    const [anio, mes, dia] = usuario.birthdate.split('-').map(Number);
-    const cumpleEdadMinima = new Date(anio + edadMinima, mes - 1, dia);
-    // compara la fecha de edad minima con la fecha actual
-    return cumpleEdadMinima <= new Date();
+    return cumpleEdad(usuario.birthdate, edadMinima);
   }
 }

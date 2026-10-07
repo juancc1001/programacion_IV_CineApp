@@ -335,6 +335,7 @@ export type Database = {
           eyes_color: number | null
           id: number
           name: string | null
+          points: number
           role: number | null
           surname: string | null
           user_id: string | null
@@ -347,6 +348,7 @@ export type Database = {
           eyes_color?: number | null
           id?: number
           name?: string | null
+          points?: number
           role?: number | null
           surname?: string | null
           user_id?: string | null
@@ -359,6 +361,7 @@ export type Database = {
           eyes_color?: number | null
           id?: number
           name?: string | null
+          points?: number
           role?: number | null
           surname?: string | null
           user_id?: string | null
@@ -373,6 +376,7 @@ export type Database = {
           discount_percentage: number
           id: number
           max_discount: number | null
+          min_age: number | null
           user_id: string | null
         }
         Insert: {
@@ -381,6 +385,7 @@ export type Database = {
           discount_percentage: number
           id?: number
           max_discount?: number | null
+          min_age?: number | null
           user_id?: string | null
         }
         Update: {
@@ -389,6 +394,7 @@ export type Database = {
           discount_percentage?: number
           id?: number
           max_discount?: number | null
+          min_age?: number | null
           user_id?: string | null
         }
         Relationships: []
@@ -399,6 +405,7 @@ export type Database = {
     }
     Functions: {
       is_admin: { Args: never; Returns: boolean }
+      sumar_puntos: { Args: { cantidad: number }; Returns: undefined }
     }
     Enums: {
       [_ in never]: never

@@ -74,7 +74,7 @@ export class Carrito {
     const codigo = this.codigoCupon.trim();
     const usuario = await this.authService.getUserInformation();
     const cupon =
-      codigo && usuario?.user_id ? await this.voucherService.getVoucherByCode(codigo, usuario.user_id) : null;
+      codigo && usuario?.user_id ? await this.voucherService.getVoucherByCode(codigo, usuario.user_id, usuario.birthdate) : null;
 
     this.cupon.set(cupon);
     this.mensajeCupon.set(cupon ? `Cupón agregado: ${cupon.discount_percentage}% de descuento` : 'Cupón inválido');
@@ -91,6 +91,10 @@ export class Carrito {
       .map((item) => ({ productId: item.producto.id, cantidad: item.cantidad }));
 
     const booking = await this.bookingService.crearBooking(entrada.funcionId, entrada.butacas, productos, this.cupon()?.id ?? null);
+
+    if (booking?.user_id) {
+      await this.authService.sumarPuntos(Math.floor(this.total()));
+    }
 
     this.comprando.set(false);
 

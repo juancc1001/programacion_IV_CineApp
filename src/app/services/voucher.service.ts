@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { SupabaseService } from './supabase.service';
 import type { Tables, TablesInsert, TablesUpdate } from '../../types/supabase';
+import { cumpleEdad } from '../utils/edad';
 
 @Injectable({
   providedIn: 'root',
@@ -34,7 +35,7 @@ export class VoucherService {
     return data;
   }
 
-  async getVoucherByCode(code: string, userId?: string): Promise<Voucher | null> {
+  async getVoucherByCode(code: string, userId?: string, birthdate?: string): Promise<Voucher | null> {
     if (!userId) {
       const { data, error } = await this.supabase
         .from('voucher')
@@ -49,7 +50,7 @@ export class VoucherService {
         return null;
       }
 
-      return data;
+      return data?.min_age ? null : data;
     }
 
     const { data, error } = await this.supabase
@@ -57,7 +58,6 @@ export class VoucherService {
       .select('*')
       .eq('code', code)
       .or(`user_id.eq.${userId},user_id.is.null`)
-      // Prefer the user's own voucher over a global one with the same code.
       .order('user_id', { nullsFirst: false })
       .limit(1)
       .maybeSingle();
@@ -68,6 +68,7 @@ export class VoucherService {
     }
 
     if (!data || (await this.hasUsedVoucher(data.id, userId))) return null;
+    if (data.min_age && (!birthdate || !cumpleEdad(birthdate, data.min_age))) return null;
 
     return data;
   }

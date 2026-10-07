@@ -76,6 +76,7 @@ export class Vouchers {
       code: voucher.code ?? '',
       discount_percentage: voucher.discount_percentage,
       max_discount: voucher.max_discount,
+      min_age: voucher.min_age,
     };
     this.usuario = voucher.user_id ? [this.usuarioLabel(voucher.user_id)] : [];
     this.showForm = true;
@@ -101,6 +102,7 @@ export class Vouchers {
       code: '',
       discount_percentage: 0,
       max_discount: null as number | null,
+      min_age: null as number | null,
     };
   }
 }

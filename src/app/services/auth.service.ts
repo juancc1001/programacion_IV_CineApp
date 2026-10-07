@@ -99,6 +99,17 @@ export class AuthService {
     return data;
   }
 
+  async sumarPuntos(cantidad: number) {
+    const { error } = await this.supabase.rpc('sumar_puntos', { cantidad });
+
+    if (error) {
+      console.error('Error adding points:', error);
+      return;
+    }
+
+    this.cachedUserInformation = this.fetchUserInformation();
+  }
+
   async isAdmin() {
     const information = await this.getUserInformation();
 
