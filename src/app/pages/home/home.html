@@ -1,7 +1,10 @@
 <div class="home-container">
-  <div class="home-cards">
-    @for (pelicula of destacadas(); track pelicula.id) {
+  <section class="mas-vistas">
+    <h2 class="mas-vistas-titulo">🔥 Las más vistas</h2>
+    <div class="home-cards">
+    @for (pelicula of destacadas(); track pelicula.id; let i = $index) {
       <article class="movie-card">
+        <span class="ranking">#{{ i + 1 }}</span>
         <img
           [src]="pelicula.image_url || '/assets/poster_placeholder.jpg'"
           [alt]="pelicula.title"
@@ -14,7 +17,8 @@
         </div>
       </article>
     }
-  </div>
+    </div>
+  </section>
   @if (proximamente().length) {
     <section class="proximamente">
       <h2 class="proximamente-titulo">Próximamente</h2>

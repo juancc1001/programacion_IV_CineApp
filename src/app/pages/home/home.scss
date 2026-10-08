@@ -1,15 +1,40 @@
-.home-cards {
-  display: flex;
-  gap: 10px;
-  padding: 20px 0;
-  justify-content: center;
+.mas-vistas {
+  padding-bottom: 20px;
   border-bottom: 2px solid var(--color-secondary);
   margin-bottom: 1px;
   box-shadow: 0 2px 0 0 black;
   background-color: #3967cc;
 }
 
+.mas-vistas-titulo {
+  margin: 0;
+  padding: 15px 0 5px;
+  text-align: center;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.home-cards {
+  display: flex;
+  gap: 10px;
+  padding-top: 10px;
+  justify-content: center;
+}
+
+.ranking {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 4px 10px;
+  background: var(--color-secondary);
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+}
+
 .movie-card {
+  position: relative;
   display: flex;
   width: 195px;
   height: 290px;
@@ -95,10 +120,13 @@
 
 .proximamente-titulo {
   max-width: 70%;
-  margin: 20px auto 0;
+  margin: 0 auto;
+  padding-top: 20px;
+  color: white;
 }
 
 .proximamente {
+  background-color: #6a3fb5;
   border-bottom: 2px solid var(--color-secondary);
   box-shadow: 0 2px 0 0 black;
 
